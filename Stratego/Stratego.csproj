@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="ClassesMetier\Bombe.cs" />
     <Compile Include="ClassesMetier\CaseJeu.cs" />
+    <Compile Include="ClassesMetier\Coordonnee.cs" />
     <Compile Include="ClassesMetier\Couleur.cs" />
     <Compile Include="ClassesMetier\Demineur.cs" />
     <Compile Include="ClassesMetier\Drapeau.cs" />

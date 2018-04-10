@@ -124,7 +124,7 @@ namespace Stratego
          }
       }
 
-      public ReponseDeplacement ResoudreDeplacement(Point pointDepart, Point pointCible)
+      public ReponseDeplacement ResoudreDeplacement(Coordonnee pointDepart, Coordonnee pointCible)
       {
          ReponseDeplacement reponse = new ReponseDeplacement();
          reponse.PiecesEliminees = new List<Piece>();
@@ -157,7 +157,7 @@ namespace Stratego
          return reponse;
       }
 
-      public bool EstDeplacementPermis(Point pointDepart, Point pointCible)
+      public bool EstDeplacementPermis(Coordonnee pointDepart, Coordonnee pointCible)
       {
          return ( EstCoordonneeValide(pointDepart) && EstCoordonneeValide(pointCible)
                 && !EstCoordonneeLac(pointDepart) && !EstCoordonneeLac(pointCible)
@@ -165,7 +165,7 @@ namespace Stratego
                 );
       }
 
-      private bool EstCoordonneeValide(Point p)
+      private bool EstCoordonneeValide(Coordonnee p)
       {
          if ((p.X >= 0 && p.X < TAILLE_GRILLE_JEU) && (p.Y >= 0 && p.Y < TAILLE_GRILLE_JEU))
          {
@@ -177,7 +177,7 @@ namespace Stratego
          }
       }
 
-      public bool EstCoordonneeLac(Point p)
+      public bool EstCoordonneeLac(Coordonnee p)
       {
          // Coordonnées des lacs : I (2, 3, 6, 7) - J (4, 5)
          if ((p.X == 2 || p.X == 3 || p.X == 6 || p.X == 7) && (p.Y == 4 || p.Y == 5))
@@ -190,7 +190,7 @@ namespace Stratego
          }
       }
 
-      public bool EstCaseOccupee(Point p)
+      public bool EstCaseOccupee(Coordonnee p)
       {
          return ((GrilleCases[(int)p.X][(int)p.Y]).EstOccupe());
       }
@@ -251,12 +251,12 @@ namespace Stratego
          return pieceTrouvee;
       }
 
-      public Piece ObtenirPiece(Point p)
+      public Piece ObtenirPiece(Coordonnee p)
       {
          return GrilleCases[(int)p.X][(int)p.Y].Occupant;
       }
 
-      public Couleur ObtenirCouleurPiece(Point p)
+      public Couleur ObtenirCouleurPiece(Coordonnee p)
       {
          return GrilleCases[(int)p.X][(int)p.Y].Occupant.Couleur;
       }

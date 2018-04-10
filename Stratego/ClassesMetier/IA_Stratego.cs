@@ -56,7 +56,7 @@ namespace Stratego
 
       private void JouerCoup(JeuStrategoControl jeu)
       {
-         List<List<Point>> ListeCoupsPermis;
+         List<List<Coordonnee>> ListeCoupsPermis;
          Random rnd = new Random(DateTime.Now.Millisecond);
          int choixRnd;
 
@@ -66,46 +66,46 @@ namespace Stratego
          jeu.ExecuterCoup(ListeCoupsPermis[choixRnd][0], ListeCoupsPermis[choixRnd][1]);
       }
 
-      private List<List<Point>> TrouverCoupsPermis(GrilleJeu grillePartie)
+      private List<List<Coordonnee>> TrouverCoupsPermis(GrilleJeu grillePartie)
       {
-         List<List<Point>> listeCoups = new List<List<Point>>();
-         Point pointDepart, pointCible;
+         List<List<Coordonnee>> listeCoups = new List<List<Coordonnee>>();
+         Coordonnee pointDepart, pointCible;
 
          for (int i = 0; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
          {
             for (int j = 0; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
             {
-               pointDepart = new Point(i, j);
+               pointDepart = new Coordonnee(i, j);
 
                if (Jeu.GrillePartie.EstCaseOccupee(pointDepart) 
                   && Jeu.GrillePartie.ObtenirCouleurPiece(pointDepart) == Couleur.Bleu)
                {
                   // Valider un coup vers la gauche.
-                  pointCible = new Point(pointDepart.X - 1, pointDepart.Y);
+                  pointCible = new Coordonnee(pointDepart.X - 1, pointDepart.Y);
                   if (Jeu.GrillePartie.EstDeplacementPermis(pointDepart, pointCible))
                   {
-                     listeCoups.Add(new List<Point>() { pointDepart, pointCible });
+                     listeCoups.Add(new List<Coordonnee>() { pointDepart, pointCible });
                   }
 
                   // Valider un coup vers l'avant.
-                  pointCible = new Point(pointDepart.X, pointDepart.Y - 1);
+                  pointCible = new Coordonnee(pointDepart.X, pointDepart.Y - 1);
                   if (Jeu.GrillePartie.EstDeplacementPermis(pointDepart, pointCible))
                   {
-                     listeCoups.Add(new List<Point>() { pointDepart, pointCible });
+                     listeCoups.Add(new List<Coordonnee>() { pointDepart, pointCible });
                   }
 
                   // Valider un coup vers la droite.
-                  pointCible = new Point(pointDepart.X + 1, pointDepart.Y);
+                  pointCible = new Coordonnee(pointDepart.X + 1, pointDepart.Y);
                   if (Jeu.GrillePartie.EstDeplacementPermis(pointDepart, pointCible))
                   {
-                     listeCoups.Add(new List<Point>() { pointDepart, pointCible });
+                     listeCoups.Add(new List<Coordonnee>() { pointDepart, pointCible });
                   }
 
                   // Valider un coup vers l'arrière.
-                  pointCible = new Point(pointDepart.X, pointDepart.Y + 1);
+                  pointCible = new Coordonnee(pointDepart.X, pointDepart.Y + 1);
                   if (Jeu.GrillePartie.EstDeplacementPermis(pointDepart, pointCible))
                   {
-                     listeCoups.Add(new List<Point>() { pointDepart, pointCible });
+                     listeCoups.Add(new List<Coordonnee>() { pointDepart, pointCible });
                   }
                }
             }

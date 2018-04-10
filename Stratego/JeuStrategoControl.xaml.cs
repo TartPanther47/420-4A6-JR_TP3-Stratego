@@ -227,7 +227,7 @@ namespace Stratego
          rect.Width = TAILLE_CASES_GRILLE;
          rect.Height = TAILLE_CASES_GRILLE;
 
-         if (GrillePartie.EstCoordonneeLac(new Point(colonne, rangee)))
+         if (GrillePartie.EstCoordonneeLac(new Coordonnee(colonne, rangee)))
          {
             rect.Fill = Brushes.CornflowerBlue;
          }
@@ -281,7 +281,7 @@ namespace Stratego
 
       private void InitialiserAffichagePieces()
       {
-         Point position;
+         Coordonnee position;
          Label labelAffichage;
 
          GrillePieces = new List<List<Label>>();
@@ -292,7 +292,7 @@ namespace Stratego
 
             for (int j = 0; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
             {
-               position = new Point(i, j);
+               position = new Coordonnee(i, j);
 
                if (GrillePartie.EstCaseOccupee(position))
                {
@@ -354,8 +354,8 @@ namespace Stratego
       {
          Rectangle caseSelectionnee = (Rectangle)sender;
 
-         Point pointSelectionne = new Point(Grid.GetColumn(caseSelectionnee), Grid.GetRow(caseSelectionnee));
-         Point pointActif;
+         Coordonnee pointSelectionne = new Coordonnee(Grid.GetColumn(caseSelectionnee), Grid.GetRow(caseSelectionnee));
+         Coordonnee pointActif;
 
          ReponseDeplacement reponse;
 
@@ -363,7 +363,7 @@ namespace Stratego
          {
             if (grdPartie.Children.Contains(SelectionActive))
             {
-               pointActif = new Point(Grid.GetColumn(SelectionActive), Grid.GetRow(SelectionActive));
+               pointActif = new Coordonnee(Grid.GetColumn(SelectionActive), Grid.GetRow(SelectionActive));
 
                if (pointSelectionne == pointActif)
                {
@@ -393,7 +393,7 @@ namespace Stratego
          }
       }
 
-      public ReponseDeplacement ExecuterCoup(Point caseDepart, Point caseCible)
+      public ReponseDeplacement ExecuterCoup(Coordonnee caseDepart, Coordonnee caseCible)
       {
          Thread executionIA = new Thread(LancerIA);
 
