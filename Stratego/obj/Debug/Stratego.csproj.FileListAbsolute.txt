@@ -66,3 +66,20 @@ D:\Visual Studio 2017\Projects\Stratego - version de base\test2\420-4A6-JR_TP3-S
 D:\Visual Studio 2017\Projects\Stratego - version de base\test2\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.csproj.CoreCompileInputs.cache
 D:\Visual Studio 2017\Projects\Stratego - version de base\test2\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.exe
 D:\Visual Studio 2017\Projects\Stratego - version de base\test2\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.pdb
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\bin\Debug\Stratego.exe.config
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\bin\Debug\Stratego.exe
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\bin\Debug\Stratego.pdb
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.csprojResolveAssemblyReference.cache
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\JeuStrategoControl.g.cs
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\MainWindow.g.cs
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\App.g.cs
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego_MarkupCompile.cache
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego_MarkupCompile.lref
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\JeuStrategoControl.baml
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\MainWindow.baml
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.g.resources
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.Properties.Resources.resources
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.csproj.GenerateResource.Cache
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.csproj.CoreCompileInputs.cache
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.exe
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.pdb

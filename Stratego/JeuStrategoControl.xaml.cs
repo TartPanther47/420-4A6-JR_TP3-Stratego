@@ -229,11 +229,17 @@ namespace Stratego
 
          if (GrillePartie.EstCoordonneeLac(new Coordonnee(colonne, rangee)))
          {
-            rect.Fill = Brushes.CornflowerBlue;
+            rect.Fill = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri("textures/lake.png", UriKind.Relative))
+            };
          }
          else
          {
-            rect.Fill = Brushes.OliveDrab;
+            rect.Fill = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri("textures/terrain.png", UriKind.Relative))
+            };
          }
 
          Grid.SetZIndex(rect, 0);
@@ -275,8 +281,11 @@ namespace Stratego
 
          SelectionActive.Width = TAILLE_CASES_GRILLE;
          SelectionActive.Height = TAILLE_CASES_GRILLE;
-         SelectionActive.Fill = Brushes.Yellow;
-         Grid.SetZIndex(SelectionActive, 0);
+         SelectionActive.Fill = new ImageBrush
+         {
+             ImageSource = new BitmapImage(new Uri("textures/selector.png", UriKind.Relative))
+         };
+            Grid.SetZIndex(SelectionActive, 0);
       }
 
       private void InitialiserAffichagePieces()
