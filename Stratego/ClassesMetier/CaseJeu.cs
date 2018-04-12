@@ -33,11 +33,15 @@ namespace Stratego
 
          if (Occupant != null)
          {
-            if (attaquant.Force < Occupant.Force)
+            if (Occupant is PieceMobile &&
+                attaquant is PieceMobile &&
+                ((PieceMobile) attaquant).Force < ((PieceMobile) Occupant).Force)
             {
                piecesEliminees.Add(attaquant);
             }
-            else if (attaquant.Force > Occupant.Force)
+            else if (Occupant is PieceMobile &&
+                     attaquant is PieceMobile &&
+                     ((PieceMobile)attaquant).Force > ((PieceMobile)Occupant).Force)
             {
                piecesEliminees.Add(Occupant);
                Occupant = attaquant;
@@ -78,8 +82,9 @@ namespace Stratego
 
          if (this.EstVoisineDe(caseCible))
          {
-            if (!caseCible.EstOccupe()
-               || this.Occupant.Couleur != caseCible.Occupant.Couleur)
+            if (Occupant is PieceMobile &&
+                (!caseCible.EstOccupe()
+                || this.Occupant.Couleur != caseCible.Occupant.Couleur))
             {
                resultat = true;
             }
