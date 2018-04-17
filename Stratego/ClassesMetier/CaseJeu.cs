@@ -60,31 +60,55 @@ namespace Stratego
 
          return piecesEliminees;
       }
+        
+      public bool EstAccessible(CaseJeu caseCible, Direction direction)
+      {
+            CaseJeu caseCourante = this;
+
+            while(caseCourante != caseCible &&
+                 (caseCourante != null && (!caseCourante.EstOccupe() || caseCourante == this)))
+            {
+                switch (direction)
+                {
+                    case Direction.Avant:
+                        caseCourante = caseCourante.VoisinAvant;
+                        break;
+                    case Direction.Gauche:
+                        caseCourante = caseCourante.VoisinGauche;
+                        break;
+                    case Direction.Arriere:
+                        caseCourante = caseCourante.VoisinArriere;
+                        break;
+                    case Direction.Droite:
+                        caseCourante = caseCourante.VoisinDroite;
+                        break;
+                }
+            }
+
+            return caseCourante == caseCible;
+      }
 
       public bool EstVoisineDe(CaseJeu caseCible)
       {
-         if ( caseCible != null
-            && (this.VoisinGauche == caseCible || this.VoisinAvant == caseCible
-               || this.VoisinDroite == caseCible || this.VoisinArriere == caseCible)
-            )
-         {
-            return true;
-         }
-         else
-         {
-            return false;
-         }
+        return (caseCible != null
+           && (VoisinGauche == caseCible || VoisinAvant == caseCible
+              || VoisinDroite == caseCible || VoisinArriere == caseCible)
+           );
       }
 
       public bool EstDeplacementLegal(CaseJeu caseCible)
       {
          bool resultat = false;
 
-         if (this.EstVoisineDe(caseCible))
-         {
+         if (EstVoisineDe(caseCible) || (Occupant is Eclaireur &&
+                                        (EstAccessible(caseCible, Direction.Avant) ||
+                                         EstAccessible(caseCible, Direction.Gauche) ||
+                                         EstAccessible(caseCible, Direction.Arriere) ||
+                                         EstAccessible(caseCible, Direction.Droite)))
+         ) {
             if (Occupant is PieceMobile &&
                 (!caseCible.EstOccupe()
-                || this.Occupant.Couleur != caseCible.Occupant.Couleur))
+                || Occupant.Couleur != caseCible.Occupant.Couleur))
             {
                resultat = true;
             }

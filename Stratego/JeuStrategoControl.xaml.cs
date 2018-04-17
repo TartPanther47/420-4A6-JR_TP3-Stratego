@@ -368,7 +368,7 @@ namespace Stratego
 
          ReponseDeplacement reponse;
 
-         if (TourJeu == Couleur.Rouge)
+         if (TourJeu == Couleur.Rouge) // TODO: Changer de Couleur.Rouge à la couleur présente
          {
             if (grdPartie.Children.Contains(SelectionActive))
             {
@@ -391,10 +391,10 @@ namespace Stratego
             else
             {
                if (GrillePartie.EstCaseOccupee(pointSelectionne)
-                  && GrillePartie.ObtenirCouleurPiece(pointSelectionne) == Couleur.Rouge)
-               {
-                  Grid.SetColumn(SelectionActive, (int)pointSelectionne.X);
-                  Grid.SetRow(SelectionActive, (int)pointSelectionne.Y);
+                  && GrillePartie.ObtenirCouleurPiece(pointSelectionne) == Couleur.Rouge) // TODO: Changer de Couleur.Rouge à la couleur présente
+                    {
+                  Grid.SetColumn(SelectionActive, pointSelectionne.X);
+                  Grid.SetRow(SelectionActive, pointSelectionne.Y);
 
                   grdPartie.Children.Add(SelectionActive);
                }
@@ -415,7 +415,7 @@ namespace Stratego
          {
             // Prendre les informations avant de faire le coup.
             attaquant = GrillePartie.ObtenirPiece(caseDepart);
-            affichageAttaquant = GrillePieces[(int)caseDepart.X][(int)caseDepart.Y];
+            affichageAttaquant = GrillePieces[caseDepart.X][caseDepart.Y];
             reponse = GrillePartie.ResoudreDeplacement(caseDepart, caseCible);
 
             if (reponse.DeplacementFait)
@@ -423,25 +423,25 @@ namespace Stratego
 
                // Retrait de la pièce attaquante de sa position d'origine.
                grdPartie.Children.Remove(affichageAttaquant);
-               GrillePieces[(int)caseDepart.X][(int)caseDepart.Y] = null;
+               GrillePieces[caseDepart.X][caseDepart.Y] = null;
 
                if (reponse.PiecesEliminees.Count == 2)
                {
                   // Retrait de la pièce attaquée.
-                  grdPartie.Children.Remove(GrillePieces[(int)caseCible.X][(int)caseCible.Y]);
-                  GrillePieces[(int)caseCible.X][(int)caseCible.Y] = null;
+                  grdPartie.Children.Remove(GrillePieces[caseCible.X][caseCible.Y]);
+                  GrillePieces[caseCible.X][caseCible.Y] = null;
                }
                else if (reponse.PiecesEliminees.Count == 1 && reponse.PiecesEliminees[0] != attaquant
                        || reponse.PiecesEliminees.Count == 0)
                {
                   // Remplacement de la pièce attaquée par la pièce attaquante.
-                  grdPartie.Children.Remove(GrillePieces[(int)caseCible.X][(int)caseCible.Y]);
-                  GrillePieces[(int)caseCible.X][(int)caseCible.Y] = null;
+                  grdPartie.Children.Remove(GrillePieces[caseCible.X][caseCible.Y]);
+                  GrillePieces[caseCible.X][caseCible.Y] = null;
 
-                  GrillePieces[(int)caseCible.X][(int)caseCible.Y] = affichageAttaquant;
+                  GrillePieces[caseCible.X][caseCible.Y] = affichageAttaquant;
 
-                  Grid.SetColumn(affichageAttaquant, (int)caseCible.X);
-                  Grid.SetRow(affichageAttaquant, (int)caseCible.Y);
+                  Grid.SetColumn(affichageAttaquant, caseCible.X);
+                  Grid.SetRow(affichageAttaquant, caseCible.Y);
                   grdPartie.Children.Add(affichageAttaquant);
                }
 

@@ -58,8 +58,8 @@
     </ApplicationDefinition>
     <Compile Include="ClassesMetier\Bombe.cs" />
     <Compile Include="ClassesMetier\CaseJeu.cs" />
-    <Compile Include="ClassesMetier\Coordonnee.cs" />
-    <Compile Include="ClassesMetier\Couleur.cs" />
+    <Compile Include="ClassesUtiles\Coordonnee.cs" />
+    <Compile Include="ClassesUtiles\Couleur.cs" />
     <Compile Include="ClassesMetier\Demineur.cs" />
     <Compile Include="ClassesMetier\Drapeau.cs" />
     <Compile Include="ClassesMetier\Eclaireur.cs" />
@@ -86,6 +86,7 @@
     <Compile Include="ClassesMetier\Commandant.cs" />
     <Compile Include="ClassesMetier\General.cs" />
     <Compile Include="ClassesMetier\Lieutenant.cs" />
+    <Compile Include="ClassesUtiles\Direction.cs" />
     <Compile Include="JeuStrategoControl.xaml.cs">
       <DependentUpon>JeuStrategoControl.xaml</DependentUpon>
     </Compile>

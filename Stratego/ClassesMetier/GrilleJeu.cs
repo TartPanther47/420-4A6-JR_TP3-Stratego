@@ -133,8 +133,8 @@ namespace Stratego
 
          if (EstCoordonneeValide(pointDepart) && EstCoordonneeValide(pointCible))
          {
-            caseDepart = GrilleCases[(int)pointDepart.X][(int)pointDepart.Y];
-            caseCible = GrilleCases[(int)pointCible.X][(int)pointCible.Y];
+            caseDepart = GrilleCases[pointDepart.X][pointDepart.Y];
+            caseCible = GrilleCases[pointCible.X][pointCible.Y];
 
             if (caseDepart.EstOccupe() && EstDeplacementPermis(pointDepart, pointCible))
             {
@@ -161,7 +161,7 @@ namespace Stratego
       {
          return ( EstCoordonneeValide(pointDepart) && EstCoordonneeValide(pointCible)
                 && !EstCoordonneeLac(pointDepart) && !EstCoordonneeLac(pointCible)
-                && GrilleCases[(int)pointDepart.X][(int)pointDepart.Y].EstDeplacementLegal(GrilleCases[(int)pointCible.X][(int)pointCible.Y])
+                && GrilleCases[pointDepart.X][pointDepart.Y].EstDeplacementLegal(GrilleCases[pointCible.X][pointCible.Y])
                 );
       }
 
