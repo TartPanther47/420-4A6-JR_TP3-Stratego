@@ -22,35 +22,48 @@ namespace Stratego
          TypeCase = type;
       }
 
-      public bool EstOccupe()
-      {
-         return (Occupant != null);
-      }
+      public bool EstOccupe() => (Occupant != null);
 
       public List<Piece> ResoudreAttaque(Piece attaquant)
       {
          List<Piece> piecesEliminees = new List<Piece>();
 
-         if (Occupant != null)
-         {
-            if (Occupant is PieceMobile &&
-                attaquant is PieceMobile &&
-                ((PieceMobile) attaquant).Force < ((PieceMobile) Occupant).Force)
+         if (Occupant != null) // TODO: Fix "colour change" when attacking ESP - MARECH, MARECH - ESP or ECLAIR - BOMB
             {
-               piecesEliminees.Add(attaquant);
-            }
-            else if (Occupant is PieceMobile &&
-                     attaquant is PieceMobile &&
-                     ((PieceMobile)attaquant).Force > ((PieceMobile)Occupant).Force)
+            if(attaquant is PieceMobile)
             {
-               piecesEliminees.Add(Occupant);
-               Occupant = attaquant;
-            }
-            else
-            {
-               piecesEliminees.Add(attaquant);
-               piecesEliminees.Add(Occupant);
-               Occupant = null;
+               if(Occupant is PieceMobile)
+               {
+                    if (Occupant is Marechal && attaquant is Espion ||
+                        Occupant is Espion && attaquant is Marechal)
+                         piecesEliminees.Add(Occupant);
+                    else if (((PieceMobile)attaquant).Force < ((PieceMobile)Occupant).Force)
+                    {
+                        piecesEliminees.Add(attaquant);
+                    }
+                    else if (((PieceMobile)attaquant).Force > ((PieceMobile)Occupant).Force)
+                    {
+                        piecesEliminees.Add(Occupant);
+                        Occupant = attaquant;
+                    }
+                    else
+                    {
+                        piecesEliminees.Add(attaquant);
+                        piecesEliminees.Add(Occupant);
+                        Occupant = null;
+                    }
+               }
+               else if(Occupant is Bombe)
+               {
+                    if (attaquant is Demineur)
+                        piecesEliminees.Add(Occupant);
+                    else
+                        piecesEliminees.Add(attaquant);
+               }
+               else if(Occupant is Drapeau)
+               {
+                    // TODO: End game
+               }
             }
          }
          else

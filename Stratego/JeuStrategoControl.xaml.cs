@@ -447,14 +447,8 @@ namespace Stratego
 
                // Permet de faire jouer l'IA.
                if (TourJeu == Couleur.Rouge)
-               {
-                  ChangerTourJeu();
                   executionIA.Start();
-               }
-               else
-               {
-                  ChangerTourJeu();
-               }
+               ChangerTourJeu();
             }
          }
          else

@@ -15,15 +15,6 @@ namespace Stratego
          Couleur = couleurPiece;
       }
 
-      public bool EstRouge()
-      {
-         return (Couleur == Couleur.Rouge);
-      }
-
-      public bool EstBleu()
-      {
-         return !EstRouge();
-      }
-
+      public bool EstDeCouleur(Couleur couleur) => Couleur == couleur;
    }
 }

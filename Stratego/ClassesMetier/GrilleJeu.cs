@@ -127,7 +127,6 @@ namespace Stratego
       public ReponseDeplacement ResoudreDeplacement(Coordonnee pointDepart, Coordonnee pointCible)
       {
          ReponseDeplacement reponse = new ReponseDeplacement();
-         reponse.PiecesEliminees = new List<Piece>();
 
          CaseJeu caseDepart, caseCible;
 
@@ -234,8 +233,8 @@ namespace Stratego
             for (int j = 0; j < TAILLE_GRILLE_JEU; j++)
             {
                if (GrilleCases[i][j].Occupant != null 
-                     && ((GrilleCases[i][j].Occupant.EstRouge() && couleurJoueur == Couleur.Rouge)
-                        || (GrilleCases[i][j].Occupant.EstBleu() && couleurJoueur == Couleur.Bleu)))
+                     && ((GrilleCases[i][j].Occupant.EstDeCouleur(Couleur.Rouge) && couleurJoueur == Couleur.Rouge)
+                        || (GrilleCases[i][j].Occupant.EstDeCouleur(Couleur.Bleu) && couleurJoueur == Couleur.Bleu)))
                {
                   pieceTrouvee = true;
 
@@ -243,7 +242,7 @@ namespace Stratego
                   j = TAILLE_GRILLE_JEU;
                   i = TAILLE_GRILLE_JEU;
 
-                  // Les break, ça existe aussi !
+                  // ^ Les break, ça existe aussi ! ^
                }
             }
          }
@@ -253,12 +252,12 @@ namespace Stratego
 
       public Piece ObtenirPiece(Coordonnee p)
       {
-         return GrilleCases[(int)p.X][(int)p.Y].Occupant;
+         return GrilleCases[p.X][p.Y].Occupant;
       }
 
       public Couleur ObtenirCouleurPiece(Coordonnee p)
       {
-         return GrilleCases[(int)p.X][(int)p.Y].Occupant.Couleur;
+         return GrilleCases[p.X][p.Y].Occupant.Couleur;
       }
 
    }
