@@ -41,14 +41,9 @@ namespace Stratego
 
       private JeuStrategoControl Jeu { get; set; }
 
-      private Couleur CouleurIA { get; set; }
-
-      public IA_Stratego(JeuStrategoControl jeu) : this(jeu, Couleur.Bleu) { }
-
-      public IA_Stratego(JeuStrategoControl jeu, Couleur couleur)
+      public IA_Stratego(JeuStrategoControl jeu)
       {
          Jeu = jeu;
-         CouleurIA = couleur;
 
          // Abonner l'IA à l'interface du jeu.
          jeu.Subscribe(this);
@@ -78,7 +73,7 @@ namespace Stratego
                pointDepart = new Coordonnee(i, j);
 
                if (Jeu.GrillePartie.EstCaseOccupee(pointDepart) 
-                  && Jeu.GrillePartie.ObtenirCouleurPiece(pointDepart) == Couleur.Bleu)
+                  && Jeu.GrillePartie.ObtenirCouleurPiece(pointDepart) == ParametresJeu.CouleurIA)
                {
                   // Valider un coup vers la gauche.
                   pointCible = new Coordonnee(pointDepart.X - 1, pointDepart.Y);

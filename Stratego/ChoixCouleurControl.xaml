@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Stratego.ChoixCouleurControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Stratego"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="42"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="42"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42"/>
+            <RowDefinition Height="42"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="42"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="1"
+                   Grid.Row="1"
+                   FontSize="24"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Foreground="White">Choisissez votre couleur</TextBlock>
+        <Grid Grid.Column="1"
+              Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="12"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="24"/>
+                <RowDefinition/>
+                <RowDefinition Height="24"/>
+            </Grid.RowDefinitions>
+            <Border BorderBrush="Red" BorderThickness="1" CornerRadius="3"
+                    Grid.Column="1"
+                    Grid.Row="1">
+                <Button x:Name="btnRouge"
+                        Background="Pink"
+                        Foreground="Red"
+                        FontSize="24"
+                        Cursor="Hand"
+                        Click="btnRouge_Click">Rouge</Button>
+            </Border>
+            <Border BorderBrush="Blue" BorderThickness="1" CornerRadius="3"
+                    Grid.Column="3"
+                    Grid.Row="1">
+                <Button x:Name="btnBleu"
+                        Background="LightBlue"
+                        Foreground="Blue"
+                        FontSize="24"
+                        Cursor="Hand"
+                        Click="btnBleu_Click">Bleu</Button>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

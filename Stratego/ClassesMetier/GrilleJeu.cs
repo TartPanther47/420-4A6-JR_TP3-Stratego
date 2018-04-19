@@ -201,7 +201,7 @@ namespace Stratego
          int compteur = 0;
          int decallage = 0;
          
-         if (couleurJoueur == Couleur.Rouge)
+         if (couleurJoueur == ParametresJeu.CouleurJoueur)
          {
             decallage = 6;
          }

@@ -6,6 +6,24 @@
              xmlns:local="clr-namespace:Stratego"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Name="grdPartie">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+        <Grid Name="grdPartie"></Grid>
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Top">
+            <Button x:Name="btnRecommencerPartie"
+                    Width="140"
+                    Cursor="Hand"
+                    Click="btnRecommencerPartie_Click">
+                Recommencer partie
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

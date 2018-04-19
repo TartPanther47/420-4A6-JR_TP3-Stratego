@@ -59,8 +59,12 @@
     <Compile Include="AccueilControl.xaml.cs">
       <DependentUpon>AccueilControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChoixCouleurControl.xaml.cs">
+      <DependentUpon>ChoixCouleurControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ClassesMetier\Bombe.cs" />
     <Compile Include="ClassesMetier\CaseJeu.cs" />
+    <Compile Include="ClassesMetier\ParametresJeu.cs" />
     <Compile Include="ClassesUtiles\Coordonnee.cs" />
     <Compile Include="ClassesUtiles\Couleur.cs" />
     <Compile Include="ClassesMetier\Demineur.cs" />
@@ -73,6 +77,10 @@
     <Compile Include="ClassesMetier\ReponseDeplacement.cs" />
     <Compile Include="ClassesMetier\Sergent.cs" />
     <Page Include="AccueilControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChoixCouleurControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -95,6 +103,8 @@
     <Compile Include="ClassesMetier\Lieutenant.cs" />
     <Compile Include="ClassesUtiles\Direction.cs" />
     <Compile Include="ClassesUtiles\GestionnaireEcransJeu.cs" />
+    <Compile Include="ClassesUtiles\IDestructible.cs" />
+    <Compile Include="ClassesUtiles\IConstructible.cs" />
     <Compile Include="JeuStrategoControl.xaml.cs">
       <DependentUpon>JeuStrategoControl.xaml</DependentUpon>
     </Compile>

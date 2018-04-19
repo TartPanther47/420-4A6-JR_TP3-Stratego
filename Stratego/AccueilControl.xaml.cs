@@ -20,14 +20,18 @@ namespace Stratego
     /// </summary>
     public partial class AccueilControl : UserControl
     {
-        public AccueilControl()
+        private MainWindow MainWindow { get; set; }
+
+        public AccueilControl(MainWindow mainWindow)
         {
             InitializeComponent();
+            MainWindow = mainWindow;
         }
 
         private void btnLancerPartie_Click(object sender, RoutedEventArgs e)
-        {
-            GestionnaireEcransJeu.ChangerEcran("Partie");
-        }
+            => GestionnaireEcransJeu.ChangerEcran("Choix couleur");
+
+        private void btnQuitter_Click(object sender, RoutedEventArgs e)
+            => MainWindow.Close();
     }
 }

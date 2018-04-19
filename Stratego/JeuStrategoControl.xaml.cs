@@ -19,11 +19,11 @@ namespace Stratego
    /// <summary>
    /// Logique d'interaction pour JeuStrategoControl.xaml
    /// </summary>
-   public partial class JeuStrategoControl : UserControl
+   public partial class JeuStrategoControl : UserControl, IConstructible, IDestructible
    {
       #region Static
 
-      private const int TAILLE_CASES_GRILLE = 50;
+      private const int TAILLE_CASES_GRILLE = 48;
 
       #endregion
 
@@ -79,50 +79,6 @@ namespace Stratego
       public JeuStrategoControl()
       {
          InitializeComponent();
-
-         GrillePartie = new GrilleJeu();
-
-         DiviserGrilleJeu();
-         ColorerGrilleJeu();
-         DefinirZoneSelectionGrille();
-         InitialiserSelectionActive();
-
-         PositionnerPieces();
-         InitialiserAffichagePieces();
-
-         #region Tests
-
-         // Code des tests initiaux.
-         /*
-         ReponseDeplacement deplacement;
-
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(0, 6), new Point(0, 5)); // Deplacement
-
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(0, 5), new Point(-1, 5)); // Coord invalide
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(2, 6), new Point(2, 5)); // Lac
-
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(2, 6), new Point(3, 6)); // Piece vs sa propre couleur
-
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 6), new Point(1, 5));
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 5), new Point(1, 4));
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 4), new Point(1, 3)); // Prise par attaquant
-
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 3), new Point(1, 2));
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 2), new Point(1, 1));
-         // deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 1), new Point(1, 0)); // 2 pièces éliminées
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 1), new Point(2, 1));
-         deplacement = GrillePartie.ResoudreDeplacement(new Point(2, 1), new Point(2, 0)); // Attaquant éliminé
-         */
-
-         #endregion
-
-         TourJeu = Couleur.Rouge;
-
-         // Initialise la liste d'observateurs.
-         observers = new List<IObserver<JeuStrategoControl>>();
-
-         // Initialiser l'IA.
-         IA = new IA_Stratego(this);
       }
 
       /// <summary>
@@ -368,7 +324,7 @@ namespace Stratego
 
          ReponseDeplacement reponse;
 
-         if (TourJeu == Couleur.Rouge) // TODO: Changer de Couleur.Rouge à la couleur présente
+         if (TourJeu == ParametresJeu.CouleurJoueur)
          {
             if (grdPartie.Children.Contains(SelectionActive))
             {
@@ -391,7 +347,7 @@ namespace Stratego
             else
             {
                if (GrillePartie.EstCaseOccupee(pointSelectionne)
-                  && GrillePartie.ObtenirCouleurPiece(pointSelectionne) == Couleur.Rouge) // TODO: Changer de Couleur.Rouge à la couleur présente
+                  && GrillePartie.ObtenirCouleurPiece(pointSelectionne) == ParametresJeu.CouleurJoueur)
                     {
                   Grid.SetColumn(SelectionActive, pointSelectionne.X);
                   Grid.SetRow(SelectionActive, pointSelectionne.Y);
@@ -446,7 +402,7 @@ namespace Stratego
                }
 
                // Permet de faire jouer l'IA.
-               if (TourJeu == Couleur.Rouge)
+               if (TourJeu == ParametresJeu.CouleurJoueur)
                   executionIA.Start();
                ChangerTourJeu();
             }
@@ -481,5 +437,70 @@ namespace Stratego
             TourJeu = Couleur.Rouge;
          }
       }
-   }
+
+        private void btnRecommencerPartie_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: ne demander que lorsque la partie est déjà commencée.
+            if(MessageBox.Show("Voulez-vous vraiment recommencer la partie ?",
+                               "Recommencer la partie",
+                               MessageBoxButton.YesNo,
+                               MessageBoxImage.Question,
+                               MessageBoxResult.No) == MessageBoxResult.Yes)
+                GestionnaireEcransJeu.ChangerEcran("Accueil"); // TODO: recommencer la partie.
+        }
+
+        public void Construire()
+        {
+            GrillePartie = new GrilleJeu();
+
+            DiviserGrilleJeu();
+            ColorerGrilleJeu();
+            DefinirZoneSelectionGrille();
+            InitialiserSelectionActive();
+
+            PositionnerPieces();
+            InitialiserAffichagePieces();
+
+            #region Tests
+
+            // Code des tests initiaux.
+            /*
+            ReponseDeplacement deplacement;
+
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(0, 6), new Point(0, 5)); // Deplacement
+
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(0, 5), new Point(-1, 5)); // Coord invalide
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(2, 6), new Point(2, 5)); // Lac
+
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(2, 6), new Point(3, 6)); // Piece vs sa propre couleur
+
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 6), new Point(1, 5));
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 5), new Point(1, 4));
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 4), new Point(1, 3)); // Prise par attaquant
+
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 3), new Point(1, 2));
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 2), new Point(1, 1));
+            // deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 1), new Point(1, 0)); // 2 pièces éliminées
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(1, 1), new Point(2, 1));
+            deplacement = GrillePartie.ResoudreDeplacement(new Point(2, 1), new Point(2, 0)); // Attaquant éliminé
+            */
+
+            #endregion
+
+            TourJeu = Couleur.Rouge;
+
+            // Initialise la liste d'observateurs.
+            observers = new List<IObserver<JeuStrategoControl>>();
+
+            // Initialiser l'IA.
+            IA = new IA_Stratego(this);
+
+            if(ParametresJeu.CouleurIA == Couleur.Rouge)
+            {
+                new Thread(LancerIA).Start();
+            }
+        }
+
+        public void Detruire() => grdPartie.Children.Clear();
+    }
 }

@@ -24,15 +24,20 @@
                     Margin="0 8 0 8"
                     Width="90"
                     Height="42"
+                    Cursor="Hand"
                     Click="btnLancerPartie_Click">Lancer partie</Button>
             <Button x:Name="btnParametres"
                     Margin="0 8 0 8"
                     Width="120"
+                    Cursor="Hand"
+                    IsEnabled="False"
                     Height="42">Paramètres</Button>
             <Button x:Name="btnQuitter"
                     Margin="0 8 0 8"
                     Width="80"
-                    Height="42">Quitter</Button>
+                    Cursor="Hand"
+                    Height="42"
+                    Click="btnQuitter_Click">Quitter</Button>
         </StackPanel>
     </Grid>
 </UserControl>

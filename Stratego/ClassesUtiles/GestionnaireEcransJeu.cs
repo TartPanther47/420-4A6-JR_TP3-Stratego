@@ -19,8 +19,14 @@ namespace Stratego
             if (instance != null && instance.EstIdValide(ecran))
             {
                 if(instance.EstIdValide(instance.EcranSelectionne))
+                {
                     instance.CollectionAffichage.Remove(instance.EcransDeJeu[instance.EcranSelectionne]);
+                    if (instance.EcransDeJeu[instance.EcranSelectionne] is IDestructible)
+                        ((IDestructible)instance.EcransDeJeu[instance.EcranSelectionne]).Detruire();
+                }
                 instance.EcranSelectionne = ecran;
+                if (instance.EcransDeJeu[instance.EcranSelectionne] is IConstructible)
+                    ((IConstructible)instance.EcransDeJeu[instance.EcranSelectionne]).Construire();
                 instance.CollectionAffichage.Add(instance.EcransDeJeu[instance.EcranSelectionne]);
             }
         }
