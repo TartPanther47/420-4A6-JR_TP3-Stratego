@@ -83,3 +83,5 @@ D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.csproj.GenerateR
 D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.csproj.CoreCompileInputs.cache
 D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.exe
 D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.pdb
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\AccueilControl.g.cs
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\AccueilControl.baml

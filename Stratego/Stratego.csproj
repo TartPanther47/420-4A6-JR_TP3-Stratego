@@ -56,6 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AccueilControl.xaml.cs">
+      <DependentUpon>AccueilControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ClassesMetier\Bombe.cs" />
     <Compile Include="ClassesMetier\CaseJeu.cs" />
     <Compile Include="ClassesUtiles\Coordonnee.cs" />
@@ -69,6 +72,10 @@
     <Compile Include="ClassesMetier\PieceMobile.cs" />
     <Compile Include="ClassesMetier\ReponseDeplacement.cs" />
     <Compile Include="ClassesMetier\Sergent.cs" />
+    <Page Include="AccueilControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JeuStrategoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -87,6 +94,7 @@
     <Compile Include="ClassesMetier\General.cs" />
     <Compile Include="ClassesMetier\Lieutenant.cs" />
     <Compile Include="ClassesUtiles\Direction.cs" />
+    <Compile Include="ClassesUtiles\GestionnaireEcransJeu.cs" />
     <Compile Include="JeuStrategoControl.xaml.cs">
       <DependentUpon>JeuStrategoControl.xaml</DependentUpon>
     </Compile>

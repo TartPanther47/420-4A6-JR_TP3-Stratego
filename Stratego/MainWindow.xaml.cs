@@ -15,20 +15,20 @@ using System.Windows.Shapes;
 
 namespace Stratego
 {
-   /// <summary>
-   /// Logique d'interaction pour MainWindow.xaml
-   /// </summary>
-   public partial class MainWindow : Window
-   {
-      private JeuStrategoControl Jeu { get; set; }
+    /// <summary>
+    /// Logique d'interaction pour MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+         public MainWindow()
+         {
+            InitializeComponent();
 
-      public MainWindow()
-      {
-         InitializeComponent();
-
-         Jeu = new JeuStrategoControl();
-
-         grdPrincipale.Children.Add(Jeu);
-      }
-   }
+            GestionnaireEcransJeu.Creer(new Dictionary<string, UserControl>
+            {
+                { "Accueil", new AccueilControl() },
+                { "Partie", new JeuStrategoControl() }
+            }, grdPrincipale.Children, "Accueil");
+         }
+    }
 }
