@@ -26,8 +26,9 @@ namespace Stratego
 
             GestionnaireEcransJeu.Creer(new Dictionary<string, UserControl>
             {
-                { "Accueil", new AccueilControl(this) },
+                { "Accueil", new AccueilControl() },
                 { "Choix couleur", new ChoixCouleurControl() },
+                { "Placement des pieces", new PlacementPiecesControl() },
                 { "Partie", new JeuStrategoControl() }
             }, grdPrincipale.Children, "Accueil");
          }

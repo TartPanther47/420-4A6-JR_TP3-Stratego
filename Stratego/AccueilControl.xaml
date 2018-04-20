@@ -8,36 +8,26 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="24">
             Bienvenue!
         </TextBlock>
-        <StackPanel Grid.Row="1" Margin="0 80 0 0">
-            <Button x:Name="btnLancerPartie"
-                    Margin="0 8 0 8"
-                    Width="90"
-                    Height="42"
-                    Cursor="Hand"
-                    Click="btnLancerPartie_Click">Lancer partie</Button>
-            <Button x:Name="btnParametres"
-                    Margin="0 8 0 8"
-                    Width="120"
-                    Cursor="Hand"
-                    IsEnabled="False"
-                    Height="42">Paramètres</Button>
-            <Button x:Name="btnQuitter"
-                    Margin="0 8 0 8"
-                    Width="80"
-                    Cursor="Hand"
-                    Height="42"
-                    Click="btnQuitter_Click">Quitter</Button>
-        </StackPanel>
+        <WebBrowser Source="http://420.cstj.qc.ca/clementgassmannprince/Stratego"
+                    Grid.ColumnSpan="2"/>
+        <Button x:Name="btnLancerPartie"
+                Grid.Column="1" Grid.Row="1"
+                Margin="0 8 0 8"
+                Width="90"
+                Height="42"
+                Cursor="Hand"
+                Click="btnLancerPartie_Click">Lancer partie</Button>
     </Grid>
 </UserControl>

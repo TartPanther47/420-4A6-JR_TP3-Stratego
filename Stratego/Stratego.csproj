@@ -112,10 +112,17 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PlacementPiecesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassesMetier\Marechal.cs" />
     <Compile Include="ClassesMetier\Piece.cs" />
+    <Compile Include="PlacementPiecesControl.xaml.cs">
+      <DependentUpon>PlacementPiecesControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

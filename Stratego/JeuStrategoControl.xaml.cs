@@ -446,7 +446,7 @@ namespace Stratego
                                MessageBoxButton.YesNo,
                                MessageBoxImage.Question,
                                MessageBoxResult.No) == MessageBoxResult.Yes)
-                GestionnaireEcransJeu.ChangerEcran("Accueil"); // TODO: recommencer la partie.
+                GestionnaireEcransJeu.ChangerEcran("Choix couleur");
         }
 
         public void Construire()

@@ -44,7 +44,11 @@ namespace Stratego
             CollectionAffichage = collectionAffichage;
 
             if (EstIdValide(EcranSelectionne))
+            {
+                if (EcransDeJeu[EcranSelectionne] is IConstructible)
+                    ((IConstructible)EcransDeJeu[EcranSelectionne]).Construire();
                 CollectionAffichage.Add(EcransDeJeu[EcranSelectionne]);
+            }
         }
 
         public bool EstIdValide(string nomEcran) => EcransDeJeu.ContainsKey(nomEcran);

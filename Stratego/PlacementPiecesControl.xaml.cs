@@ -16,13 +16,22 @@ using System.Windows.Shapes;
 namespace Stratego
 {
     /// <summary>
-    /// Logique d'interaction pour AccueilControl.xaml
+    /// Logique d'interaction pour PlacerPiecesControl.xaml
     /// </summary>
-    public partial class AccueilControl : UserControl
+    public partial class PlacementPiecesControl : UserControl, IConstructible
     {
-        public AccueilControl() => InitializeComponent();
+        public PlacementPiecesControl()
+        {
+            InitializeComponent();
+        }
 
-        private void btnLancerPartie_Click(object sender, RoutedEventArgs e)
-            => GestionnaireEcransJeu.ChangerEcran("Choix couleur");
+        public void Construire()
+        {
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            GestionnaireEcransJeu.ChangerEcran("Partie");
+        }
     }
 }
