@@ -62,9 +62,17 @@
     <Compile Include="ChoixCouleurControl.xaml.cs">
       <DependentUpon>ChoixCouleurControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ClassesMetier\AffichageGenerateurPiece.cs" />
     <Compile Include="ClassesMetier\Bombe.cs" />
     <Compile Include="ClassesMetier\CaseJeu.cs" />
+    <Compile Include="ClassesMetier\GenerateurGeneral.cs" />
+    <Compile Include="ClassesMetier\GenerateurMarechal.cs" />
+    <Compile Include="ClassesMetier\GenerateurNul.cs" />
+    <Compile Include="ClassesMetier\GenerateurPiece.cs" />
+    <Compile Include="ClassesMetier\GenerateurPieceAffichable.cs" />
     <Compile Include="ClassesMetier\ParametresJeu.cs" />
+    <Compile Include="ClassesMetier\PieceNulle.cs" />
+    <Compile Include="ClassesMetier\SelectionneurPieces.cs" />
     <Compile Include="ClassesUtiles\Coordonnee.cs" />
     <Compile Include="ClassesUtiles\Couleur.cs" />
     <Compile Include="ClassesMetier\Demineur.cs" />

@@ -110,3 +110,5 @@ C:\Users\Cagap\source\repos\GitHub\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\St
 C:\Users\Cagap\source\repos\GitHub\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\Stratego.pdb
 C:\Users\Cagap\source\repos\GitHub\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\PlacementPiecesControl.g.cs
 C:\Users\Cagap\source\repos\GitHub\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\PlacementPiecesControl.baml
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\PlacementPiecesControl.g.cs
+D:\mxdowndl\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\PlacementPiecesControl.baml

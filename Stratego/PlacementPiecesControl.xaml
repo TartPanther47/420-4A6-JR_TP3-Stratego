@@ -5,8 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Stratego"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             Loaded="UserControl_Loaded">
+             d:DesignHeight="550" d:DesignWidth="600">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="512"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="256"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="grdPlateauJeu"
+              Grid.Column="1" Grid.Row="1">
+        </Grid>
     </Grid>
 </UserControl>
