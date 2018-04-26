@@ -19,6 +19,7 @@
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
         <Grid x:Name="grdPlateauJeu"
+              Width="512" Height="256"
               Grid.Column="1" Grid.Row="1">
         </Grid>
     </Grid>

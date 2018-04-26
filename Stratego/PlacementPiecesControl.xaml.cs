@@ -20,17 +20,30 @@ namespace Stratego
     /// </summary>
     public partial class PlacementPiecesControl : UserControl, IConstructible
     {
-        private Rectangle selection;
+        private bool estSelection;
+        private bool EstSelection
+        {
+            get { return estSelection; }
+            set
+            {
+                preSelection.Visibility = (value ? Visibility.Collapsed : Visibility.Visible);
+                estSelection = value;
+            }
+        }
+
         private Rectangle preSelection;
-
         private SelectionneurPieces selectionneurPieces;
-
+        
         public PlacementPiecesControl()
         {
             InitializeComponent();
 
             DiviserGrille();
             InsererCasesGrille();
+
+            preSelection = new Rectangle();
+            grdPlateauJeu.Children.Add(preSelection);
+            EstSelection = false;
         }
 
         public void Construire()
@@ -58,38 +71,38 @@ namespace Stratego
                 {
                     Rectangle caseGrille = new Rectangle();
                     caseGrille.Fill = new ImageBrush(new BitmapImage(new Uri("textures/terrain.png", UriKind.Relative)));
-
+                    
                     caseGrille.MouseEnter += (object sender, MouseEventArgs e) =>
                     {
-                        grdPlateauJeu.Children.Remove(this.preSelection);
-
-                        Rectangle preSelection = new Rectangle();
                         preSelection.Fill = new ImageBrush(new BitmapImage(new Uri("textures/preSelector.png", UriKind.Relative)));
+                        preSelection.Cursor = Cursors.Hand;
 
                         preSelection.MouseUp += (object casePreselectionnee, MouseButtonEventArgs arguments) =>
                         {
+                            EstSelection = true;
                             selectionneurPieces.DemanderPiece(Piece =>
                             {
+                                EstSelection = false;
 
                             });
                         };
 
                         Grid.SetColumn(preSelection, Grid.GetColumn((Rectangle)sender));
                         Grid.SetRow(preSelection, Grid.GetRow((Rectangle)sender));
-                        grdPlateauJeu.Children.Add(preSelection);
-
-                        this.preSelection = preSelection;
+                        if(!EstSelection)
+                            preSelection.Visibility = Visibility.Visible;
                     };
 
                     Grid.SetColumn(caseGrille, x);
                     Grid.SetRow(caseGrille, y);
+
                     grdPlateauJeu.Children.Add(caseGrille);
                 }
             }
 
             grdPlateauJeu.MouseLeave += (object sender, MouseEventArgs e) =>
             {
-                grdPlateauJeu.Children.Remove(preSelection);
+                preSelection.Visibility = Visibility.Collapsed;
             };
         }
     }

@@ -65,6 +65,7 @@
     <Compile Include="ClassesMetier\AffichageGenerateurPiece.cs" />
     <Compile Include="ClassesMetier\Bombe.cs" />
     <Compile Include="ClassesMetier\CaseJeu.cs" />
+    <Compile Include="ClassesMetier\GenerateurColonel.cs" />
     <Compile Include="ClassesMetier\GenerateurGeneral.cs" />
     <Compile Include="ClassesMetier\GenerateurMarechal.cs" />
     <Compile Include="ClassesMetier\GenerateurNul.cs" />

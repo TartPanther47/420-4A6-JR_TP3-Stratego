@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Shapes;
 
 namespace Stratego
@@ -17,5 +18,8 @@ namespace Stratego
             Generateur = generateur;
             Control = control;
         }
+
+        public void Modifier(Action<GenerateurPiece, Rectangle> methodeRetour)
+            => methodeRetour(Generateur, Control);
     }
 }
