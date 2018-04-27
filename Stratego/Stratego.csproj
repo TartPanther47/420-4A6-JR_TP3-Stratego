@@ -72,6 +72,7 @@
     <Compile Include="ClassesMetier\GenerateurPiece.cs" />
     <Compile Include="ClassesMetier\GenerateurPieceAffichable.cs" />
     <Compile Include="ClassesMetier\ParametresJeu.cs" />
+    <Compile Include="ClassesMetier\PieceAffichable.cs" />
     <Compile Include="ClassesMetier\PieceNulle.cs" />
     <Compile Include="ClassesMetier\SelectionneurPieces.cs" />
     <Compile Include="ClassesUtiles\Coordonnee.cs" />

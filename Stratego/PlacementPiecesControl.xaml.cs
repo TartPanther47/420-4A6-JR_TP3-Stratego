@@ -33,6 +33,8 @@ namespace Stratego
 
         private Rectangle preSelection;
         private SelectionneurPieces selectionneurPieces;
+
+        private PieceAffichable[,] pieces;
         
         public PlacementPiecesControl()
         {
@@ -41,6 +43,7 @@ namespace Stratego
             DiviserGrille();
             InsererCasesGrille();
 
+            pieces = new PieceAffichable[GrilleJeu.TAILLE_GRILLE_JEU, GrilleJeu.TAILLE_GRILLE_JEU / 2];
             preSelection = new Rectangle();
             grdPlateauJeu.Children.Add(preSelection);
             EstSelection = false;
@@ -80,10 +83,18 @@ namespace Stratego
                         preSelection.MouseUp += (object casePreselectionnee, MouseButtonEventArgs arguments) =>
                         {
                             EstSelection = true;
-                            selectionneurPieces.DemanderPiece(Piece =>
+                            selectionneurPieces.DemanderPiece((piece, affichage) =>
                             {
                                 EstSelection = false;
+                                int X = Grid.GetColumn((Rectangle)sender);
+                                int Y = Grid.GetRow((Rectangle)sender);
 
+                                pieces[X, Y] = new PieceAffichable(piece, affichage);
+
+                                Grid.SetColumn(pieces[X, Y].Affichage, X);
+                                Grid.SetRow(pieces[X, Y].Affichage, Y);
+
+                                grdPlateauJeu.Children.Add(pieces[X, Y].Affichage);
                             });
                         };
 
