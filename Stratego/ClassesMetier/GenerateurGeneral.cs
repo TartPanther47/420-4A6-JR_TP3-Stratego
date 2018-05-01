@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Stratego
 {
-    class GenerateurGeneral : GenerateurPiece
+    public class GenerateurGeneral : GenerateurPiece
     {
         public GenerateurGeneral() : base(1) {}
 

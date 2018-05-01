@@ -11,11 +11,16 @@ namespace Stratego
     {
         public Piece Piece { get; }
         public Rectangle Affichage { get; }
+        public string Nom { get; }
 
-        public PieceAffichable(Piece piece, Rectangle affichage)
+        public PieceAffichable(Piece piece, Rectangle affichage, string nom)
         {
             Piece = piece;
             Affichage = affichage;
+            Nom = nom;
         }
+
+        public void Modifier(Action<Piece, Rectangle, string> methodeRetour)
+            => methodeRetour(Piece, Affichage, Nom);
     }
 }

@@ -8,13 +8,17 @@ namespace Stratego
 {
     public abstract class GenerateurPiece
     {
+        private int NombreMax { get; set; }
             // Le nombre de pièces restantes de ce type
-        private int Nombre { get; set; }
+        public int Nombre { get; private set; }
 
         public GenerateurPiece(int nombre)
-            => Nombre = nombre;
+        {
+            Nombre = nombre;
+            NombreMax = nombre;
+        }
 
-        public bool EstGenerable() => Nombre >= 0; // TODO: check if > OR >=
+        public bool EstGenerable() => Nombre > 0;
 
         protected abstract Piece CreerPiece(Couleur couleur);
 
@@ -26,6 +30,11 @@ namespace Stratego
                 return CreerPiece(couleur);
             }
             return new PieceNulle(couleur);
+        }
+
+        public void IncrementerNombre()
+        {
+            if (Nombre < NombreMax) ++Nombre;
         }
     }
 }

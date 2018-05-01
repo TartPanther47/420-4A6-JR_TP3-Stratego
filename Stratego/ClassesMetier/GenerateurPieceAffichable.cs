@@ -9,15 +9,17 @@ using System.Windows.Shapes;
 
 namespace Stratego
 {
-    class GenerateurPieceAffichable
+    public class GenerateurPieceAffichable
     {
         public GenerateurPiece Generateur { get; }
         public AffichageGenerateurPiece Affichage { get; }
+        public string NomSprite { get; }
 
         public GenerateurPieceAffichable(GenerateurPiece generateur, string nomSprite)
         {
             Generateur = generateur;
-            Affichage = new AffichageGenerateurPiece(Generateur, nomSprite);
+            Affichage = new AffichageGenerateurPiece(this, nomSprite);
+            NomSprite = nomSprite;
         }
     }
 }

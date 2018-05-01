@@ -14,13 +14,29 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="256"/>
+            <RowDefinition Height="204.8"/>
+            <RowDefinition Height="88"/>
+            <RowDefinition Height="42"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
         <Grid x:Name="grdPlateauJeu"
-              Width="512" Height="256"
+              Width="512" Height="204.8"
               Grid.Column="1" Grid.Row="1">
+        </Grid>
+        <Grid Grid.Column="1"
+              Grid.Row="3"
+              Panel.ZIndex="-1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnAleatoire"
+                    Click="btnAleatoire_Click">Aléatoire</Button>
+            <Button x:Name="btnJouer"
+                    IsEnabled="False"
+                    Grid.Column="1"
+                    Click="btnJouer_Click">Jouer</Button>
         </Grid>
     </Grid>
 </UserControl>

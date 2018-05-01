@@ -20,18 +20,11 @@ namespace Stratego
     /// </summary>
     public partial class PlacementPiecesControl : UserControl, IConstructible
     {
-        private bool estSelection;
-        private bool EstSelection
-        {
-            get { return estSelection; }
-            set
-            {
-                preSelection.Visibility = (value ? Visibility.Collapsed : Visibility.Visible);
-                estSelection = value;
-            }
-        }
+        private const int HAUTEUR_GRILLE_DISPONIBLE = 4;
+        
+        private bool EstSelection { get; set; }
 
-        private Rectangle preSelection;
+        private Rectangle selection;
         private SelectionneurPieces selectionneurPieces;
 
         private PieceAffichable[,] pieces;
@@ -43,9 +36,9 @@ namespace Stratego
             DiviserGrille();
             InsererCasesGrille();
 
-            pieces = new PieceAffichable[GrilleJeu.TAILLE_GRILLE_JEU, GrilleJeu.TAILLE_GRILLE_JEU / 2];
-            preSelection = new Rectangle();
-            grdPlateauJeu.Children.Add(preSelection);
+            pieces = new PieceAffichable[GrilleJeu.TAILLE_GRILLE_JEU, HAUTEUR_GRILLE_DISPONIBLE];
+            selection = new Rectangle();
+            grdPlateauJeu.Children.Add(selection);
             EstSelection = false;
         }
 
@@ -59,7 +52,7 @@ namespace Stratego
             for (int i = 0; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
             {
                 grdPlateauJeu.ColumnDefinitions.Add(new ColumnDefinition());
-                if(i < GrilleJeu.TAILLE_GRILLE_JEU / 2)
+                if(i < HAUTEUR_GRILLE_DISPONIBLE)
                 {
                     grdPlateauJeu.RowDefinitions.Add(new RowDefinition());
                 }
@@ -70,26 +63,34 @@ namespace Stratego
         {
             for (int x = 0; x < GrilleJeu.TAILLE_GRILLE_JEU; x++)
             {
-                for (int y = 0; y < GrilleJeu.TAILLE_GRILLE_JEU / 2; y++)
+                for (int y = 0; y < HAUTEUR_GRILLE_DISPONIBLE; y++)
                 {
                     Rectangle caseGrille = new Rectangle();
                     caseGrille.Fill = new ImageBrush(new BitmapImage(new Uri("textures/terrain.png", UriKind.Relative)));
                     
                     caseGrille.MouseEnter += (object sender, MouseEventArgs e) =>
                     {
-                        preSelection.Fill = new ImageBrush(new BitmapImage(new Uri("textures/preSelector.png", UriKind.Relative)));
-                        preSelection.Cursor = Cursors.Hand;
+                        selection.Fill = new ImageBrush(new BitmapImage(new Uri("textures/preSelector.png", UriKind.Relative)));
+                        selection.Cursor = Cursors.Hand;
 
-                        preSelection.MouseUp += (object casePreselectionnee, MouseButtonEventArgs arguments) =>
+                        selection.MouseUp += (object casePreselectionnee, MouseButtonEventArgs arguments) =>
                         {
                             EstSelection = true;
-                            selectionneurPieces.DemanderPiece((piece, affichage) =>
+                            selectionneurPieces.DemanderPiece((piece, affichage, nom) =>
                             {
                                 EstSelection = false;
                                 int X = Grid.GetColumn((Rectangle)sender);
                                 int Y = Grid.GetRow((Rectangle)sender);
 
-                                pieces[X, Y] = new PieceAffichable(piece, affichage);
+                                pieces[X, Y] = new PieceAffichable(piece, affichage, nom);
+                                pieces[X, Y].Modifier((Piece Piece, Rectangle Affichage, string Nom) =>
+                                {
+                                    Affichage.MouseLeftButtonUp += (object pieceAffichable, MouseButtonEventArgs evenement) =>
+                                    {
+                                        selectionneurPieces.RedonnerPiece(Nom);
+                                        grdPlateauJeu.Children.Remove(Affichage);
+                                    };
+                                });
 
                                 Grid.SetColumn(pieces[X, Y].Affichage, X);
                                 Grid.SetRow(pieces[X, Y].Affichage, Y);
@@ -98,10 +99,10 @@ namespace Stratego
                             });
                         };
 
-                        Grid.SetColumn(preSelection, Grid.GetColumn((Rectangle)sender));
-                        Grid.SetRow(preSelection, Grid.GetRow((Rectangle)sender));
+                        Grid.SetColumn(selection, Grid.GetColumn((Rectangle)sender));
+                        Grid.SetRow(selection, Grid.GetRow((Rectangle)sender));
                         if(!EstSelection)
-                            preSelection.Visibility = Visibility.Visible;
+                            selection.Visibility = Visibility.Visible;
                     };
 
                     Grid.SetColumn(caseGrille, x);
@@ -113,8 +114,45 @@ namespace Stratego
 
             grdPlateauJeu.MouseLeave += (object sender, MouseEventArgs e) =>
             {
-                preSelection.Visibility = Visibility.Collapsed;
+                if(!EstSelection)
+                    selection.Visibility = Visibility.Collapsed;
             };
+        }
+
+        private void btnAleatoire_Click(object sender, RoutedEventArgs e)
+        {
+            for (int x = 0; x < GrilleJeu.TAILLE_GRILLE_JEU; x++)
+            {
+                for (int y = 0; y < HAUTEUR_GRILLE_DISPONIBLE; y++)
+                {
+                    if (pieces[x, y] == null)
+                    {
+                        ReponseGenerateurPiece piece = selectionneurPieces.GenererPieceAleatoire(ParametresJeu.CouleurJoueur);
+
+                        EstSelection = false;
+
+                        pieces[x, y] = new PieceAffichable(piece.Piece, piece.Affichage, piece.Nom);
+                        pieces[x, y].Modifier((Piece Piece, Rectangle Affichage, string Nom) =>
+                        {
+                            Affichage.MouseLeftButtonUp += (object pieceAffichable, MouseButtonEventArgs evenement) =>
+                            {
+                                selectionneurPieces.RedonnerPiece(Nom);
+                                grdPlateauJeu.Children.Remove(Affichage);
+                            };
+                        });
+
+                        Grid.SetColumn(pieces[x, y].Affichage, x);
+                        Grid.SetRow(pieces[x, y].Affichage, y);
+
+                        grdPlateauJeu.Children.Add(pieces[x, y].Affichage);
+                    }
+                }
+            }
+        }
+
+        private void btnJouer_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

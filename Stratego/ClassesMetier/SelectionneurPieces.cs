@@ -15,26 +15,30 @@ namespace Stratego
 {
     public class SelectionneurPieces
     {
+        private const int NB_TYPES_PIECES = 12;
         private const int TAILLE_PIECE = 42;
         private const int RAYON_CERCLE = 128;
-        private const int NB_FRAMES_ANIMATION_CERCLE = 24;
+        private const int NB_FRAMES_ANIMATION_CERCLE = 8;
 
         private List<GenerateurPieceAffichable> generateurs = new List<GenerateurPieceAffichable>
         {
             new GenerateurPieceAffichable(new GenerateurMarechal(), "marechal"),
             new GenerateurPieceAffichable(new GenerateurGeneral(), "general"),
             new GenerateurPieceAffichable(new GenerateurColonel(), "colonel"),
-            new GenerateurPieceAffichable(new GenerateurNul(), "commandant"),
-            new GenerateurPieceAffichable(new GenerateurNul(), "capitaine"),
-            new GenerateurPieceAffichable(new GenerateurNul(), "lieutenant"),
-            new GenerateurPieceAffichable(new GenerateurNul(), "sergent"),
-            new GenerateurPieceAffichable(new GenerateurNul(), "demineur"),
-            new GenerateurPieceAffichable(new GenerateurNul(), "eclaireur"),
-            new GenerateurPieceAffichable(new GenerateurNul(), "espion"),
-            new GenerateurPieceAffichable(new GenerateurNul(), "drapeau"),
-            new GenerateurPieceAffichable(new GenerateurNul(), "bombe")
+            new GenerateurPieceAffichable(new GenerateurCommandant(), "commandant"),
+            new GenerateurPieceAffichable(new GenerateurCapitaine(), "capitaine"),
+            new GenerateurPieceAffichable(new GenerateurLieutenant(), "lieutenant"),
+            new GenerateurPieceAffichable(new GenerateurSergent(), "sergent"),
+            new GenerateurPieceAffichable(new GenerateurDemineur(), "demineur"),
+            new GenerateurPieceAffichable(new GenerateurEclaireur(), "eclaireur"),
+            new GenerateurPieceAffichable(new GenerateurEspion(), "espion"),
+            new GenerateurPieceAffichable(new GenerateurDrapeau(), "drapeau"),
+            new GenerateurPieceAffichable(new GenerateurBombe(), "bombe")
         };
-        private Action<Piece, Rectangle> MethodeRetourDemandePiece { get; set; }
+        private List<GenerateurPieceAffichable> generateursVides { get; set; }
+        private Rectangle FondEcranModal { get; set; }
+
+        private Action<Piece, Rectangle, string> MethodeRetourDemandePiece { get; set; }
 
         private Grid grilleParente;
         private Canvas canvasInterface;
@@ -47,9 +51,19 @@ namespace Stratego
             grilleParente = grille;
             MethodeRetourDemandePiece = null;
             framePresenteAnimation = 0;
+            generateursVides = new List<GenerateurPieceAffichable>();
+            FondEcranModal = new Rectangle
+            {
+                Fill = Brushes.DarkGray,
+                Opacity = 0.5,
+                Width = grille.Width,
+                Height = grille.Height
+            };
 
             canvasInterface = new Canvas();
             Canvas.SetZIndex(canvasInterface, 2);
+
+            canvasInterface.Children.Add(FondEcranModal);
 
             for (int i = 0; i < generateurs.Count; i++)
             {
@@ -57,19 +71,31 @@ namespace Stratego
                 generateurs[i].Affichage.Control.Height = TAILLE_PIECE;
                 generateurs[i].Affichage.Control.Cursor = Cursors.Hand;
 
-                generateurs[i].Affichage.Modifier((GenerateurPiece generateur, string uriSprite, Rectangle control) =>
+                generateurs[i].Affichage.Modifier((GenerateurPieceAffichable generateur, string uriSprite, Rectangle control) =>
                 {
                     control.MouseLeftButtonUp += (object sender, MouseButtonEventArgs e) =>
                     {
                         CacherInterface();
-                        MethodeRetourDemandePiece(generateur.GenererPiece(ParametresJeu.CouleurJoueur), new Rectangle
+                        MethodeRetourDemandePiece(generateur.Generateur.GenererPiece(ParametresJeu.CouleurJoueur), new Rectangle
                         {
-                            Fill = new ImageBrush(new BitmapImage(new Uri(uriSprite, UriKind.Relative)))
-                        });
+                            Fill = new ImageBrush(new BitmapImage(new Uri(uriSprite, UriKind.Relative))),
+                            Cursor = Cursors.Hand
+                        }, generateur.NomSprite);
+
+                        if (generateur.Generateur.Nombre == 0)
+                        {
+                            generateur.Affichage.Control.Visibility = Visibility.Collapsed;
+                            generateur.Affichage.LabelNbPieces.Visibility = Visibility.Collapsed;
+
+                            generateursVides.Add(generateur);
+                            generateurs.Remove(generateur);
+                        }
                     };
                 });
 
                 canvasInterface.Children.Add(generateurs[i].Affichage.Control);
+
+                canvasInterface.Children.Add(generateurs[i].Affichage.LabelNbPieces);
             }
 
             timerAnimationCercle.Interval = TimeSpan.FromMilliseconds(16 + ((double)2 / 3));
@@ -85,8 +111,17 @@ namespace Stratego
             {
                 double indexCyclique = ((double)i / (((double)framePresenteAnimation / NB_FRAMES_ANIMATION_CERCLE) * generateurs.Count)) * Math.PI * 2;
 
-                Canvas.SetLeft(generateurs[i].Affichage.Control, (grilleParente.Width / 2 - TAILLE_PIECE / 2) + Math.Cos(indexCyclique) * RAYON_CERCLE);
-                Canvas.SetTop(generateurs[i].Affichage.Control, (grilleParente.Height / 2 - TAILLE_PIECE / 2) + Math.Sin(indexCyclique) * RAYON_CERCLE);
+                if (Double.IsNaN(indexCyclique))
+                    indexCyclique = 0;
+
+                double x = (grilleParente.Width / 2 - TAILLE_PIECE / 2) + Math.Cos(indexCyclique) * RAYON_CERCLE;
+                double y = (grilleParente.Height / 2 - TAILLE_PIECE / 2) + Math.Sin(indexCyclique) * RAYON_CERCLE;
+
+                Canvas.SetLeft(generateurs[i].Affichage.Control, x);
+                Canvas.SetTop(generateurs[i].Affichage.Control, y);
+
+                Canvas.SetLeft(generateurs[i].Affichage.LabelNbPieces, x - TAILLE_PIECE / 2);
+                Canvas.SetTop(generateurs[i].Affichage.LabelNbPieces, y);
             }
             if (framePresenteAnimation >= NB_FRAMES_ANIMATION_CERCLE)
                 timerAnimationCercle.Stop();
@@ -96,17 +131,65 @@ namespace Stratego
 
         private void AfficherInterface()
         {
-            canvasInterface.Visibility = Visibility.Visible;
+            foreach (GenerateurPieceAffichable generateur in generateurs)
+                generateur.Affichage.ActualiserLabel();
             framePresenteAnimation = 0;
             timerAnimationCercle.Start();
+            canvasInterface.Visibility = Visibility.Visible;
         }
 
         private void CacherInterface() => canvasInterface.Visibility = Visibility.Collapsed;
 
-        public void DemanderPiece(Action<Piece, Rectangle> methodeRetour)
+        public void DemanderPiece(Action<Piece, Rectangle, string> methodeRetour)
         {
             MethodeRetourDemandePiece = methodeRetour;
             AfficherInterface();
+        }
+
+        public ReponseGenerateurPiece GenererPieceAleatoire(Couleur couleur)
+        {
+            Random aleatoire = new Random(Guid.NewGuid().GetHashCode());
+            int index = aleatoire.Next() % generateurs.Count;
+
+            ReponseGenerateurPiece reponse = new ReponseGenerateurPiece(generateurs[index].Generateur.GenererPiece(couleur), new Rectangle()
+            {
+                Fill = new ImageBrush(new BitmapImage(new Uri(generateurs[index].Affichage.Uri, UriKind.Relative))),
+                Cursor = Cursors.Hand
+            }, generateurs[index].NomSprite);
+
+            if (generateurs[index].Generateur.Nombre == 0)
+            {
+                generateurs[index].Affichage.Control.Visibility = Visibility.Collapsed;
+                generateurs[index].Affichage.LabelNbPieces.Visibility = Visibility.Collapsed;
+
+                generateursVides.Add(generateurs[index]);
+                generateurs.Remove(generateurs[index]);
+            }
+
+            return reponse;
+        }
+
+        public void RedonnerPiece(string nom)
+        {
+            foreach (GenerateurPieceAffichable generateur in generateurs)
+            {
+                if (generateur.NomSprite == nom)
+                    generateur.Generateur.IncrementerNombre();
+            }
+            foreach (GenerateurPieceAffichable generateur in generateursVides)
+            {
+                if (generateur.NomSprite == nom)
+                {
+                    generateur.Affichage.Control.Visibility = Visibility.Visible;
+                    generateur.Affichage.LabelNbPieces.Visibility = Visibility.Visible;
+
+                    generateur.Generateur.IncrementerNombre();
+                    generateurs.Add(generateur);
+                    generateursVides.Remove(generateur);
+
+                    return;
+                }
+            }
         }
     }
 }
