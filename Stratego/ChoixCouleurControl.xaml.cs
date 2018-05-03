@@ -27,14 +27,18 @@ namespace Stratego
 
         private void btnRouge_Click(object sender, RoutedEventArgs e)
         {
-            ParametresJeu.CouleurJoueur = Couleur.Rouge;
-            GestionnaireEcransJeu.ChangerEcran("Placement des pieces");
+            GestionnaireEcransJeu.ChangerEcran("Placement des pieces", new Dictionary<string, ParametresConstruction>
+            {
+                { "Couleur joueurs", new ParametresCouleurJoueurs(Couleur.Rouge) }
+            });
         }
 
         private void btnBleu_Click(object sender, RoutedEventArgs e)
         {
-            ParametresJeu.CouleurJoueur = Couleur.Bleu;
-            GestionnaireEcransJeu.ChangerEcran("Placement des pieces");
+            GestionnaireEcransJeu.ChangerEcran("Placement des pieces", new Dictionary<string, ParametresConstruction>
+            {
+                { "Couleur joueurs", new ParametresCouleurJoueurs(Couleur.Bleu) }
+            });
         }
     }
 }

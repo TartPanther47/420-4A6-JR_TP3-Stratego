@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="600"
         ResizeMode="NoResize"
-        Background="Gray">
+        Background="Gray"
+        Closing="Window_Closing">
     <Grid Name="grdPrincipale">
     </Grid>
 </Window>

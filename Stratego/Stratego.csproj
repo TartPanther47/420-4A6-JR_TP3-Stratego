@@ -80,7 +80,8 @@
     <Compile Include="ClassesMetier\GenerateurPiece.cs" />
     <Compile Include="ClassesMetier\GenerateurPieceAffichable.cs" />
     <Compile Include="ClassesMetier\GenerateurSergent.cs" />
-    <Compile Include="ClassesMetier\ParametresJeu.cs" />
+    <Compile Include="ClassesMetier\ParametresCouleurJoueur.cs" />
+    <Compile Include="ClassesMetier\ParametresPiecesJoueur.cs" />
     <Compile Include="ClassesMetier\PieceAffichable.cs" />
     <Compile Include="ClassesMetier\PieceNulle.cs" />
     <Compile Include="ClassesMetier\ReponseGenerateurPiece.cs" />
@@ -123,8 +124,11 @@
     <Compile Include="ClassesMetier\Lieutenant.cs" />
     <Compile Include="ClassesUtiles\Direction.cs" />
     <Compile Include="ClassesUtiles\GestionnaireEcransJeu.cs" />
+    <Compile Include="ClassesUtiles\IConstructibleParametre.cs" />
     <Compile Include="ClassesUtiles\IDestructible.cs" />
     <Compile Include="ClassesUtiles\IConstructible.cs" />
+    <Compile Include="ClassesUtiles\ParametresConstruction.cs" />
+    <Compile Include="ClassesMetier\ValidationPieces.cs" />
     <Compile Include="JeuStrategoControl.xaml.cs">
       <DependentUpon>JeuStrategoControl.xaml</DependentUpon>
     </Compile>

@@ -14,7 +14,7 @@ namespace Stratego
         public static void Creer(Dictionary<string, UserControl> ecransJeu, UIElementCollection collectionAffichage, string premierEcran)
             => instance = new GestionnaireEcransJeu(ecransJeu, collectionAffichage, premierEcran);
 
-        public static void ChangerEcran(string ecran)
+        public static void ChangerEcran(string ecran, Dictionary<string, ParametresConstruction> parametres = null)
         {
             if (instance != null && instance.EstIdValide(ecran))
             {
@@ -25,7 +25,10 @@ namespace Stratego
                         ((IDestructible)instance.EcransDeJeu[instance.EcranSelectionne]).Detruire();
                 }
                 instance.EcranSelectionne = ecran;
-                if (instance.EcransDeJeu[instance.EcranSelectionne] is IConstructible)
+
+                if (instance.EcransDeJeu[instance.EcranSelectionne] is IConstructibleParametre && parametres != null)
+                    ((IConstructibleParametre)instance.EcransDeJeu[instance.EcranSelectionne]).Construire(parametres);
+                else if (instance.EcransDeJeu[instance.EcranSelectionne] is IConstructible)
                     ((IConstructible)instance.EcransDeJeu[instance.EcranSelectionne]).Construire();
                 instance.CollectionAffichage.Add(instance.EcransDeJeu[instance.EcranSelectionne]);
             }

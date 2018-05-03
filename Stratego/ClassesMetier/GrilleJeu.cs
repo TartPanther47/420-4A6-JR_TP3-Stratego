@@ -19,9 +19,12 @@ namespace Stratego
       #endregion
       private List<List<CaseJeu>> GrilleCases { get; set; }
 
-      public GrilleJeu()
+      private Couleur CouleurJoueur { get; set; }
+
+      public GrilleJeu(Couleur couleurJoueur)
       {
          InitialiserGrille();
+         CouleurJoueur = couleurJoueur;
       }
 
       private void InitialiserGrille()
@@ -201,7 +204,7 @@ namespace Stratego
          int compteur = 0;
          int decallage = 0;
          
-         if (couleurJoueur == ParametresJeu.CouleurJoueur)
+         if (couleurJoueur == CouleurJoueur)
          {
             decallage = 6;
          }

@@ -18,7 +18,7 @@ namespace Stratego
     /// <summary>
     /// Logique d'interaction pour PlacerPiecesControl.xaml
     /// </summary>
-    public partial class PlacementPiecesControl : UserControl, IConstructible
+    public partial class PlacementPiecesControl : UserControl, IConstructibleParametre, IDestructible
     {
         private const int HAUTEUR_GRILLE_DISPONIBLE = 4;
         
@@ -28,6 +28,8 @@ namespace Stratego
         private SelectionneurPieces selectionneurPieces;
 
         private PieceAffichable[,] pieces;
+
+        private ParametresCouleurJoueurs ParametresCouleursJoueurs { get; set; }
         
         public PlacementPiecesControl()
         {
@@ -36,15 +38,16 @@ namespace Stratego
             DiviserGrille();
             InsererCasesGrille();
 
-            pieces = new PieceAffichable[GrilleJeu.TAILLE_GRILLE_JEU, HAUTEUR_GRILLE_DISPONIBLE];
             selection = new Rectangle();
             grdPlateauJeu.Children.Add(selection);
-            EstSelection = false;
         }
 
-        public void Construire()
+        public void Construire(Dictionary<string, ParametresConstruction> parametres)
         {
-            selectionneurPieces = new SelectionneurPieces(grdPlateauJeu);
+            ParametresCouleursJoueurs = (ParametresCouleurJoueurs) parametres["Couleur joueurs"];
+            selectionneurPieces = new SelectionneurPieces(grdPlateauJeu, ParametresCouleursJoueurs.CouleurJoueur);
+            pieces = new PieceAffichable[GrilleJeu.TAILLE_GRILLE_JEU, HAUTEUR_GRILLE_DISPONIBLE];
+            EstSelection = false;
         }
 
         private void DiviserGrille()
@@ -89,6 +92,12 @@ namespace Stratego
                                     {
                                         selectionneurPieces.RedonnerPiece(Nom);
                                         grdPlateauJeu.Children.Remove(Affichage);
+
+                                        pieces[Grid.GetColumn((Rectangle)pieceAffichable),
+                                               Grid.GetRow((Rectangle)pieceAffichable)] = null;
+                                        btnJouer.IsEnabled = false;
+                                        if (selectionneurPieces.NombresTypesPiecesRestants() == SelectionneurPieces.NB_TYPES_PIECES)
+                                            btnVider.IsEnabled = false;
                                     };
                                 });
 
@@ -96,6 +105,9 @@ namespace Stratego
                                 Grid.SetRow(pieces[X, Y].Affichage, Y);
 
                                 grdPlateauJeu.Children.Add(pieces[X, Y].Affichage);
+
+                                if (selectionneurPieces.NombresTypesPiecesRestants() == 1)
+                                    btnJouer.IsEnabled = true;
                             });
                         };
 
@@ -119,6 +131,25 @@ namespace Stratego
             };
         }
 
+        private void ViderCases()
+        {
+            for (int x = 0; x < GrilleJeu.TAILLE_GRILLE_JEU; x++)
+            {
+                for (int y = 0; y < HAUTEUR_GRILLE_DISPONIBLE; y++)
+                {
+                    if (pieces[x, y] != null)
+                    {
+                        selectionneurPieces.RedonnerPiece(pieces[x, y].Nom);
+                        grdPlateauJeu.Children.Remove(pieces[x, y].Affichage);
+                        pieces[x, y] = null;
+                    }
+                }
+            }
+
+            btnVider.IsEnabled = false;
+            btnJouer.IsEnabled = false;
+        }
+
         private void btnAleatoire_Click(object sender, RoutedEventArgs e)
         {
             for (int x = 0; x < GrilleJeu.TAILLE_GRILLE_JEU; x++)
@@ -127,9 +158,10 @@ namespace Stratego
                 {
                     if (pieces[x, y] == null)
                     {
-                        ReponseGenerateurPiece piece = selectionneurPieces.GenererPieceAleatoire(ParametresJeu.CouleurJoueur);
+                        ReponseGenerateurPiece piece = selectionneurPieces.GenererPieceAleatoire(ParametresCouleursJoueurs.CouleurJoueur);
 
                         EstSelection = false;
+                        selectionneurPieces.CacherInterface();
 
                         pieces[x, y] = new PieceAffichable(piece.Piece, piece.Affichage, piece.Nom);
                         pieces[x, y].Modifier((Piece Piece, Rectangle Affichage, string Nom) =>
@@ -138,6 +170,12 @@ namespace Stratego
                             {
                                 selectionneurPieces.RedonnerPiece(Nom);
                                 grdPlateauJeu.Children.Remove(Affichage);
+
+                                pieces[Grid.GetColumn((Rectangle)pieceAffichable),
+                                       Grid.GetRow((Rectangle)pieceAffichable)] = null;
+                                btnJouer.IsEnabled = false;
+                                if (selectionneurPieces.NombresTypesPiecesRestants() == SelectionneurPieces.NB_TYPES_PIECES)
+                                    btnVider.IsEnabled = false;
                             };
                         });
 
@@ -148,11 +186,24 @@ namespace Stratego
                     }
                 }
             }
+
+            btnJouer.IsEnabled = true;
+            btnVider.IsEnabled = true;
         }
 
         private void btnJouer_Click(object sender, RoutedEventArgs e)
         {
-
+            GestionnaireEcransJeu.ChangerEcran(
+                "Partie", new Dictionary<string, ParametresConstruction>
+                {
+                    { "Pieces", new ParametresPiecesJoueur(pieces, GrilleJeu.TAILLE_GRILLE_JEU, HAUTEUR_GRILLE_DISPONIBLE) },
+                    { "Couleur joueurs", ParametresCouleursJoueurs }
+                }
+            );
         }
+
+        private void btnVider_Click(object sender, RoutedEventArgs e) => ViderCases();
+
+        public void Detruire() => ViderCases();
     }
 }

@@ -15,7 +15,7 @@ namespace Stratego
 {
     public class SelectionneurPieces
     {
-        private const int NB_TYPES_PIECES = 12;
+        public const int NB_TYPES_PIECES = 12;
         private const int TAILLE_PIECE = 42;
         private const int RAYON_CERCLE = 128;
         private const int NB_FRAMES_ANIMATION_CERCLE = 8;
@@ -36,6 +36,8 @@ namespace Stratego
             new GenerateurPieceAffichable(new GenerateurBombe(), "bombe")
         };
         private List<GenerateurPieceAffichable> generateursVides { get; set; }
+
+        Couleur CouleurJoueur { get; set; }
         private Rectangle FondEcranModal { get; set; }
 
         private Action<Piece, Rectangle, string> MethodeRetourDemandePiece { get; set; }
@@ -46,8 +48,10 @@ namespace Stratego
         private int framePresenteAnimation;
         private DispatcherTimer timerAnimationCercle = new DispatcherTimer();
 
-        public SelectionneurPieces(Grid grille)
+        public SelectionneurPieces(Grid grille, Couleur couleurJoueur)
         {
+            CouleurJoueur = couleurJoueur;
+
             grilleParente = grille;
             MethodeRetourDemandePiece = null;
             framePresenteAnimation = 0;
@@ -76,7 +80,7 @@ namespace Stratego
                     control.MouseLeftButtonUp += (object sender, MouseButtonEventArgs e) =>
                     {
                         CacherInterface();
-                        MethodeRetourDemandePiece(generateur.Generateur.GenererPiece(ParametresJeu.CouleurJoueur), new Rectangle
+                        MethodeRetourDemandePiece(generateur.Generateur.GenererPiece(CouleurJoueur), new Rectangle
                         {
                             Fill = new ImageBrush(new BitmapImage(new Uri(uriSprite, UriKind.Relative))),
                             Cursor = Cursors.Hand
@@ -104,6 +108,8 @@ namespace Stratego
             CacherInterface();
             grille.Children.Add(canvasInterface);
         }
+
+        public int NombresTypesPiecesRestants() => generateurs.Count;
 
         private void ActualiserAnimationInterface(object sender, EventArgs e)
         {
@@ -138,7 +144,7 @@ namespace Stratego
             canvasInterface.Visibility = Visibility.Visible;
         }
 
-        private void CacherInterface() => canvasInterface.Visibility = Visibility.Collapsed;
+        public void CacherInterface() => canvasInterface.Visibility = Visibility.Collapsed;
 
         public void DemanderPiece(Action<Piece, Rectangle, string> methodeRetour)
         {
@@ -149,7 +155,7 @@ namespace Stratego
         public ReponseGenerateurPiece GenererPieceAleatoire(Couleur couleur)
         {
             Random aleatoire = new Random(Guid.NewGuid().GetHashCode());
-            int index = aleatoire.Next() % generateurs.Count;
+            int index = aleatoire.Next(generateurs.Count);
 
             ReponseGenerateurPiece reponse = new ReponseGenerateurPiece(generateurs[index].Generateur.GenererPiece(couleur), new Rectangle()
             {
@@ -171,11 +177,13 @@ namespace Stratego
 
         public void RedonnerPiece(string nom)
         {
+                // Si toutes les instances de la pièce n'ont pas été placées.
             foreach (GenerateurPieceAffichable generateur in generateurs)
             {
                 if (generateur.NomSprite == nom)
                     generateur.Generateur.IncrementerNombre();
             }
+                // Si toutes les instances de la pièce ont été placées.
             foreach (GenerateurPieceAffichable generateur in generateursVides)
             {
                 if (generateur.NomSprite == nom)

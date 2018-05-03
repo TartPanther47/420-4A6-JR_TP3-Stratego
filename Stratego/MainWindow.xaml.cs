@@ -32,5 +32,8 @@ namespace Stratego
                 { "Partie", new JeuStrategoControl() }
             }, grdPrincipale.Children, "Accueil");
          }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+            => Environment.Exit(Environment.ExitCode);
     }
 }

@@ -19,7 +19,7 @@ namespace Stratego
    /// <summary>
    /// Logique d'interaction pour JeuStrategoControl.xaml
    /// </summary>
-   public partial class JeuStrategoControl : UserControl, IConstructible, IDestructible
+   public partial class JeuStrategoControl : UserControl, IConstructibleParametre, IDestructible
    {
       #region Static
 
@@ -32,6 +32,8 @@ namespace Stratego
       private List<List<Label>> GrillePieces { get; set; }
 
       private Rectangle SelectionActive { get; set; }
+
+      private ParametresCouleurJoueurs CouleurJoueurs { get; set; }
 
       public Couleur TourJeu { get; private set; }
 
@@ -85,22 +87,34 @@ namespace Stratego
       /// Cette méthode existe principalement pour que le jeu soit testable.
       /// On ne veut évidemment pas toujours commencer une partie avec exactement les même positions.
       /// </summary>
-      private void PositionnerPieces()
+      private bool PositionnerPieces(List<Piece> pieces)
       {
-         List<Piece> piecesRouges = new List<Piece>() { new Marechal(Couleur.Rouge), new Capitaine(Couleur.Rouge), new Lieutenant(Couleur.Rouge), new Demineur(Couleur.Rouge), new Eclaireur(Couleur.Rouge), new Capitaine(Couleur.Rouge), new Eclaireur(Couleur.Rouge), new Eclaireur(Couleur.Rouge), new Eclaireur(Couleur.Rouge), new Capitaine(Couleur.Rouge)
-                                                , new Sergent(Couleur.Rouge), new Eclaireur(Couleur.Rouge), new Colonel(Couleur.Rouge), new Colonel(Couleur.Rouge), new General(Couleur.Rouge), new Eclaireur(Couleur.Rouge), new Sergent(Couleur.Rouge), new Bombe(Couleur.Rouge), new Bombe(Couleur.Rouge), new Lieutenant(Couleur.Rouge)
-                                                , new Commandant(Couleur.Rouge), new Eclaireur(Couleur.Rouge), new Commandant(Couleur.Rouge), new Espion(Couleur.Rouge), new Capitaine(Couleur.Rouge), new Lieutenant(Couleur.Rouge), new Bombe(Couleur.Rouge), new Sergent(Couleur.Rouge), new Lieutenant(Couleur.Rouge), new Eclaireur(Couleur.Rouge)
-                                                , new Commandant(Couleur.Rouge), new Demineur(Couleur.Rouge), new Demineur(Couleur.Rouge), new Demineur(Couleur.Rouge), new Sergent(Couleur.Rouge), new Bombe(Couleur.Rouge), new Drapeau(Couleur.Rouge), new Bombe(Couleur.Rouge), new Bombe(Couleur.Rouge), new Demineur(Couleur.Rouge)
-                                                };
+         bool estValide = true;
+            // Vérifier que les pièces sont de la même couleur
+         for (int i = 1; i < pieces.Count; i++)
+             if (pieces[i].Couleur != pieces[0].Couleur)
+                 estValide = false;
 
-         List<Piece> piecesBleues = new List<Piece>() { new Commandant(Couleur.Bleu), new Lieutenant(Couleur.Bleu), new Demineur(Couleur.Bleu), new Demineur(Couleur.Bleu), new Demineur(Couleur.Bleu), new Capitaine(Couleur.Bleu), new Bombe(Couleur.Bleu), new Sergent(Couleur.Bleu), new Bombe(Couleur.Bleu), new Drapeau(Couleur.Bleu)
-                                                , new Capitaine(Couleur.Bleu), new Eclaireur(Couleur.Bleu), new Capitaine(Couleur.Bleu), new Sergent(Couleur.Bleu), new Lieutenant(Couleur.Bleu), new Eclaireur(Couleur.Bleu), new Eclaireur(Couleur.Bleu), new Bombe(Couleur.Bleu), new Sergent(Couleur.Bleu), new Bombe(Couleur.Bleu)
-                                                , new Eclaireur(Couleur.Bleu), new Commandant(Couleur.Bleu), new Eclaireur(Couleur.Bleu), new Eclaireur(Couleur.Bleu), new Marechal(Couleur.Bleu), new Commandant(Couleur.Bleu), new Capitaine(Couleur.Bleu), new Demineur(Couleur.Bleu), new Bombe(Couleur.Bleu), new Sergent(Couleur.Bleu)
-                                                , new Lieutenant(Couleur.Bleu), new Eclaireur(Couleur.Bleu), new Colonel(Couleur.Bleu), new Demineur(Couleur.Bleu), new Lieutenant(Couleur.Bleu), new Eclaireur(Couleur.Bleu), new Colonel(Couleur.Bleu), new Espion(Couleur.Bleu), new General(Couleur.Bleu), new Bombe(Couleur.Bleu)
-                                                };
+            // Vérifier qu'on a le bon nombre de pièces
+         if (!ValidationPieces.ValiderNombrePiece<Marechal> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<General> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Colonel> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Commandant> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Capitaine> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Lieutenant> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Sergent> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Demineur> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Eclaireur> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Espion> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Drapeau> (pieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Bombe> (pieces)) estValide = false;
 
-         GrillePartie.PositionnerPieces(piecesRouges, Couleur.Rouge);
-         GrillePartie.PositionnerPieces(piecesBleues, Couleur.Bleu);
+         if (estValide)
+         {
+            GrillePartie.PositionnerPieces(pieces, CouleurJoueurs.CouleurJoueur);
+            GrillePartie.PositionnerPieces(IA.PlacerPieces(), CouleurJoueurs.CouleurIA);
+         }
+         return estValide;
       }
 
       private void DiviserGrilleJeu()
@@ -315,7 +329,7 @@ namespace Stratego
 
          ReponseDeplacement reponse;
 
-         if (TourJeu == ParametresJeu.CouleurJoueur)
+         if (TourJeu == CouleurJoueurs.CouleurJoueur)
          {
             if (grdPartie.Children.Contains(SelectionActive))
             {
@@ -338,7 +352,7 @@ namespace Stratego
             else
             {
                if (GrillePartie.EstCaseOccupee(pointSelectionne)
-                  && GrillePartie.ObtenirCouleurPiece(pointSelectionne) == ParametresJeu.CouleurJoueur)
+                  && GrillePartie.ObtenirCouleurPiece(pointSelectionne) == CouleurJoueurs.CouleurJoueur)
                     {
                   Grid.SetColumn(SelectionActive, pointSelectionne.X);
                   Grid.SetRow(SelectionActive, pointSelectionne.Y);
@@ -393,7 +407,7 @@ namespace Stratego
                }
 
                // Permet de faire jouer l'IA.
-               if (TourJeu == ParametresJeu.CouleurJoueur)
+               if (TourJeu == CouleurJoueurs.CouleurJoueur)
                   executionIA.Start();
                ChangerTourJeu();
             }
@@ -440,16 +454,24 @@ namespace Stratego
                 GestionnaireEcransJeu.ChangerEcran("Choix couleur");
         }
 
-        public void Construire()
+        public void Construire(Dictionary<string, ParametresConstruction> parametres)
         {
-            GrillePartie = new GrilleJeu();
+            CouleurJoueurs = (ParametresCouleurJoueurs)parametres["Couleur joueurs"];
+
+            GrillePartie = new GrilleJeu(CouleurJoueurs.CouleurJoueur);
+
+            // Initialise la liste d'observateurs.
+            observers = new List<IObserver<JeuStrategoControl>>();
+
+            // Initialiser l'IA.
+            IA = new IA_Stratego(this, CouleurJoueurs.CouleurIA);
 
             DiviserGrilleJeu();
             ColorerGrilleJeu();
             DefinirZoneSelectionGrille();
             InitialiserSelectionActive();
 
-            PositionnerPieces();
+            PositionnerPieces(((ParametresPiecesJoueur)parametres["Pieces"]).Pieces);
             InitialiserAffichagePieces();
 
             #region Tests
@@ -480,13 +502,8 @@ namespace Stratego
 
             TourJeu = Couleur.Rouge;
 
-            // Initialise la liste d'observateurs.
-            observers = new List<IObserver<JeuStrategoControl>>();
-
-            // Initialiser l'IA.
-            IA = new IA_Stratego(this);
-
-            if(ParametresJeu.CouleurIA == Couleur.Rouge)
+            // Lancer l'IA
+            if(CouleurJoueurs.CouleurIA == Couleur.Rouge)
             {
                 new Thread(LancerIA).Start();
             }

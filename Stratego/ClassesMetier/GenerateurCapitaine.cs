@@ -10,6 +10,6 @@ namespace Stratego
     {
         public GenerateurCapitaine() : base(4) { }
 
-        protected override Piece CreerPiece(Couleur couleur) => new Commandant(couleur);
+        protected override Piece CreerPiece(Couleur couleur) => new Capitaine(couleur);
     }
 }

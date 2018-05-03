@@ -30,12 +30,17 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Button x:Name="btnVider"
+                    IsEnabled="False"
+                    Click="btnVider_Click">Vider</Button>
             <Button x:Name="btnAleatoire"
+                    Grid.Column="1"
                     Click="btnAleatoire_Click">Aléatoire</Button>
             <Button x:Name="btnJouer"
                     IsEnabled="False"
-                    Grid.Column="1"
+                    Grid.Column="2"
                     Click="btnJouer_Click">Jouer</Button>
         </Grid>
     </Grid>

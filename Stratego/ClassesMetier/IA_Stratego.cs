@@ -41,9 +41,12 @@ namespace Stratego
 
       private JeuStrategoControl Jeu { get; set; }
 
-      public IA_Stratego(JeuStrategoControl jeu)
+      private Couleur Couleur { get; set; }
+
+      public IA_Stratego(JeuStrategoControl jeu, Couleur couleur)
       {
          Jeu = jeu;
+         Couleur = couleur;
 
          // Abonner l'IA à l'interface du jeu.
          jeu.Subscribe(this);
@@ -73,7 +76,7 @@ namespace Stratego
                pointDepart = new Coordonnee(i, j);
 
                if (Jeu.GrillePartie.EstCaseOccupee(pointDepart) 
-                  && Jeu.GrillePartie.ObtenirCouleurPiece(pointDepart) == ParametresJeu.CouleurIA)
+                  && Jeu.GrillePartie.ObtenirCouleurPiece(pointDepart) == Couleur)
                {
                   // Valider un coup vers la gauche.
                   pointCible = new Coordonnee(pointDepart.X - 1, pointDepart.Y);
@@ -107,6 +110,15 @@ namespace Stratego
          }
 
          return listeCoups;
+      }
+
+      public List<Piece> PlacerPieces()
+      {
+        return new List<Piece>() { new Commandant(Couleur), new Lieutenant(Couleur), new Demineur(Couleur), new Demineur(Couleur), new Demineur(Couleur), new Capitaine(Couleur), new Bombe(Couleur), new Sergent(Couleur), new Bombe(Couleur), new Drapeau(Couleur),
+                                   new Capitaine(Couleur), new Eclaireur(Couleur), new Capitaine(Couleur), new Sergent(Couleur), new Lieutenant(Couleur), new Eclaireur(Couleur), new Eclaireur(Couleur), new Bombe(Couleur), new Sergent(Couleur), new Bombe(Couleur),
+                                   new Eclaireur(Couleur), new Commandant(Couleur), new Eclaireur(Couleur), new Eclaireur(Couleur), new Marechal(Couleur), new Commandant(Couleur), new Capitaine(Couleur), new Demineur(Couleur), new Bombe(Couleur), new Sergent(Couleur),
+                                   new Lieutenant(Couleur), new Eclaireur(Couleur), new Colonel(Couleur), new Demineur(Couleur), new Lieutenant(Couleur), new Eclaireur(Couleur), new Colonel(Couleur), new Espion(Couleur), new General(Couleur), new Bombe(Couleur)
+        };
       }
    }
 }
