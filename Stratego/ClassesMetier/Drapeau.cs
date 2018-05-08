@@ -8,7 +8,7 @@ namespace Stratego
 {
    public class Drapeau : Piece
    {
-      public Drapeau(Couleur couleurPiece) : base(couleurPiece)
+      public Drapeau(Couleur couleurPiece) : base(couleurPiece, "drapeau")
       {                        
       }
    }

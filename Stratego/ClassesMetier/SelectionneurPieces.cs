@@ -20,21 +20,7 @@ namespace Stratego
         private const int RAYON_CERCLE = 128;
         private const int NB_FRAMES_ANIMATION_CERCLE = 8;
 
-        private List<GenerateurPieceAffichable> generateurs = new List<GenerateurPieceAffichable>
-        {
-            new GenerateurPieceAffichable(new GenerateurMarechal(), "marechal"),
-            new GenerateurPieceAffichable(new GenerateurGeneral(), "general"),
-            new GenerateurPieceAffichable(new GenerateurColonel(), "colonel"),
-            new GenerateurPieceAffichable(new GenerateurCommandant(), "commandant"),
-            new GenerateurPieceAffichable(new GenerateurCapitaine(), "capitaine"),
-            new GenerateurPieceAffichable(new GenerateurLieutenant(), "lieutenant"),
-            new GenerateurPieceAffichable(new GenerateurSergent(), "sergent"),
-            new GenerateurPieceAffichable(new GenerateurDemineur(), "demineur"),
-            new GenerateurPieceAffichable(new GenerateurEclaireur(), "eclaireur"),
-            new GenerateurPieceAffichable(new GenerateurEspion(), "espion"),
-            new GenerateurPieceAffichable(new GenerateurDrapeau(), "drapeau"),
-            new GenerateurPieceAffichable(new GenerateurBombe(), "bombe")
-        };
+        private List<GenerateurPieceAffichable> generateurs = new List<GenerateurPieceAffichable>();
         private List<GenerateurPieceAffichable> generateursVides { get; set; }
 
         Couleur CouleurJoueur { get; set; }
@@ -52,6 +38,22 @@ namespace Stratego
         {
             CouleurJoueur = couleurJoueur;
 
+            generateurs = new List<GenerateurPieceAffichable>
+            {
+                new GenerateurPieceAffichable(new GenerateurMarechal(), "marechal", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurGeneral(), "general", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurColonel(), "colonel", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurCommandant(), "commandant", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurCapitaine(), "capitaine", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurLieutenant(), "lieutenant", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurSergent(), "sergent", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurDemineur(), "demineur", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurEclaireur(), "eclaireur", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurEspion(), "espion", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurDrapeau(), "drapeau", couleurJoueur),
+                new GenerateurPieceAffichable(new GenerateurBombe(), "bombe", couleurJoueur)
+            };
+
             grilleParente = grille;
             MethodeRetourDemandePiece = null;
             framePresenteAnimation = 0;
@@ -59,10 +61,11 @@ namespace Stratego
             FondEcranModal = new Rectangle
             {
                 Fill = Brushes.DarkGray,
-                Opacity = 0.5,
+                Opacity = 0.75,
                 Width = grille.Width,
                 Height = grille.Height
             };
+            FondEcranModal.MouseLeftButtonUp += (object sender, MouseButtonEventArgs e) => { CacherInterface(); };
 
             canvasInterface = new Canvas();
             Canvas.SetZIndex(canvasInterface, 2);

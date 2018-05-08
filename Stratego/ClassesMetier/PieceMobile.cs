@@ -9,7 +9,7 @@ namespace Stratego
     public abstract class PieceMobile : Piece
     {
         public int Force { get; private set; }
-        public PieceMobile(Couleur couleurPiece, int forcePiece) : base(couleurPiece)
+        public PieceMobile(Couleur couleurPiece, int forcePiece, string nom) : base(couleurPiece, nom)
         {
             Force = forcePiece;
         }

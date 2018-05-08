@@ -18,10 +18,10 @@ namespace Stratego
         public Label LabelNbPieces { get; }
         public string Uri { get; }
 
-        public AffichageGenerateurPiece(GenerateurPieceAffichable generateur, string nomSprite)
+        public AffichageGenerateurPiece(GenerateurPieceAffichable generateur, string nomSprite, Couleur couleur)
         {
             Generateur = generateur;
-            Uri = "sprites/" + nomSprite + ".png";
+            Uri = "sprites/" + (couleur == Couleur.Rouge ? "Rouge/" : "Bleu/") + nomSprite + ".png";
             Control = new Rectangle
             {
                 Fill = new ImageBrush(new BitmapImage(new Uri(Uri, UriKind.Relative)))

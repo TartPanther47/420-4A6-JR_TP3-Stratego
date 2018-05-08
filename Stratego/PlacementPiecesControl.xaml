@@ -32,16 +32,16 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnVider"
+            <Button x:Name="btnJouer"
                     IsEnabled="False"
-                    Click="btnVider_Click">Vider</Button>
+                    Click="btnJouer_Click">Jouer</Button>
             <Button x:Name="btnAleatoire"
                     Grid.Column="1"
                     Click="btnAleatoire_Click">Aléatoire</Button>
-            <Button x:Name="btnJouer"
+            <Button x:Name="btnVider"
                     IsEnabled="False"
                     Grid.Column="2"
-                    Click="btnJouer_Click">Jouer</Button>
+                    Click="btnVider_Click">Vider</Button>
         </Grid>
     </Grid>
 </UserControl>

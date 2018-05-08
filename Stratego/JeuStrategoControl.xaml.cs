@@ -23,13 +23,15 @@ namespace Stratego
    {
       #region Static
 
-      private const int TAILLE_CASES_GRILLE = 48;
+      public const int TAILLE_CASES_GRILLE = 48;
 
       #endregion
 
       public GrilleJeu GrillePartie { get; private set; }
 
-      private List<List<Label>> GrillePieces { get; set; }
+      private List<List<Rectangle>> GrillePieces { get; set; }
+
+      private ConteneurPiecesCapturees conteneurPiecesCapturees { get; set; }
 
       private Rectangle SelectionActive { get; set; }
 
@@ -252,13 +254,13 @@ namespace Stratego
       private void InitialiserAffichagePieces()
       {
          Coordonnee position;
-         Label labelAffichage;
+         Rectangle imageAffichage;
 
-         GrillePieces = new List<List<Label>>();
+         GrillePieces = new List<List<Rectangle>>();
 
          for (int i = 0; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
          {
-            GrillePieces.Add(new List<Label>());
+            GrillePieces.Add(new List<Rectangle>());
 
             for (int j = 0; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
             {
@@ -266,14 +268,14 @@ namespace Stratego
 
                if (GrillePartie.EstCaseOccupee(position))
                {
-                  labelAffichage = CreerAffichagePiece(GrillePartie.ObtenirPiece(position));
+                  imageAffichage = CreerAffichagePiece(GrillePartie.ObtenirPiece(position));
 
-                  Grid.SetColumn(labelAffichage, i);
-                  Grid.SetRow(labelAffichage, j);
+                  Grid.SetColumn(imageAffichage, i);
+                  Grid.SetRow(imageAffichage, j);
 
-                  grdPartie.Children.Add(labelAffichage);
+                  grdPartie.Children.Add(imageAffichage);
 
-                  GrillePieces[i].Add(labelAffichage);
+                  GrillePieces[i].Add(imageAffichage);
                }
                else
                {
@@ -283,41 +285,25 @@ namespace Stratego
          }
       }
 
-      private Label CreerAffichagePiece(Piece pieceAffichage)
+      private Rectangle CreerAffichagePiece(Piece pieceAffichage)
       {
-         Label labelAffichage = new Label();
+         Rectangle imageAffichage = new Rectangle();
 
-         if (pieceAffichage is Bombe)
-         {
-            labelAffichage.Content = "B";
-         }
-         else if (pieceAffichage is Drapeau)
-         {
-            labelAffichage.Content = "D";
-         }
-         else
-         {
-            labelAffichage.Content = ((PieceMobile) pieceAffichage).Force;
-         }
+         imageAffichage.Fill = new ImageBrush(
+             new BitmapImage(
+                 new Uri(
+                     "sprites/" +
+                     (pieceAffichage.Couleur == Couleur.Rouge ? "Rouge/" : "Bleu/") +
+                     (pieceAffichage.Couleur == CouleurJoueurs.CouleurJoueur ? pieceAffichage.Nom : "dos-carte") +
+                     ".png",
+                     UriKind.Relative
+                 )
+             )
+         );
 
-         labelAffichage.FontSize = TAILLE_CASES_GRILLE * 0.6;
-         labelAffichage.FontWeight = FontWeights.Bold;
+         Grid.SetZIndex(imageAffichage, 2);
 
-         if (pieceAffichage.Couleur == Couleur.Rouge)
-         {
-            labelAffichage.Foreground = Brushes.DarkRed;
-         }
-         else
-         {
-            labelAffichage.Foreground = Brushes.Navy;
-         }
-
-         labelAffichage.HorizontalAlignment = HorizontalAlignment.Center;
-         labelAffichage.VerticalAlignment = VerticalAlignment.Center;
-
-         Grid.SetZIndex(labelAffichage, 2);
-
-         return labelAffichage;
+         return imageAffichage;
       }
 
       private void ResoudreSelectionCase(object sender, MouseButtonEventArgs e)
@@ -370,19 +356,54 @@ namespace Stratego
          ReponseDeplacement reponse = new ReponseDeplacement();
 
          Piece attaquant;
-         Label affichageAttaquant;
+         Rectangle affichageAttaquant;
+
+         Piece cible;
+         Rectangle affichageCible;
 
          if (caseCible != caseDepart)
          {
             // Prendre les informations avant de faire le coup.
             attaquant = GrillePartie.ObtenirPiece(caseDepart);
             affichageAttaquant = GrillePieces[caseDepart.X][caseDepart.Y];
+
+            cible = GrillePartie.ObtenirPiece(caseCible);
+            affichageCible = GrillePieces[caseCible.X][caseCible.Y];
+
+            if(cible != null && attaquant != null && !attaquant.EstVisible)
+            {
+               affichageAttaquant.Fill = new ImageBrush(
+                   new BitmapImage(
+                       new Uri(
+                           "sprites/" + (attaquant.EstDeCouleur(Couleur.Rouge) ? "Rouge/" : "Bleu/") + attaquant.Nom + ".png",
+                           UriKind.Relative
+                       )
+                   )
+               );
+               attaquant.EstVisible = true;
+            }
+            if(cible != null && !cible.EstVisible)
+            {
+                affichageCible.Fill = new ImageBrush(
+                    new BitmapImage(
+                        new Uri(
+                            "sprites/" + (cible.EstDeCouleur(Couleur.Rouge) ? "Rouge/" : "Bleu/") + cible.Nom + ".png",
+                            UriKind.Relative
+                        )
+                    )
+                );
+                cible.EstVisible = true;
+            }
+
             reponse = GrillePartie.ResoudreDeplacement(caseDepart, caseCible);
+
+            foreach (Piece piece in reponse.PiecesEliminees)
+                if(piece.EstDeCouleur(CouleurJoueurs.CouleurIA))
+                    conteneurPiecesCapturees.AjouterPiece(piece);
 
             if (reponse.DeplacementFait)
             {
-
-               // Retrait de la pièce attaquante de sa position d'origine.
+                // Retrait de la pièce attaquante de sa position d'origine.
                grdPartie.Children.Remove(affichageAttaquant);
                GrillePieces[caseDepart.X][caseDepart.Y] = null;
 
@@ -459,6 +480,8 @@ namespace Stratego
             CouleurJoueurs = (ParametresCouleurJoueurs)parametres["Couleur joueurs"];
 
             GrillePartie = new GrilleJeu(CouleurJoueurs.CouleurJoueur);
+
+            conteneurPiecesCapturees = new ConteneurPiecesCapturees(stpPiecesCapturees);
 
             // Initialise la liste d'observateurs.
             observers = new List<IObserver<JeuStrategoControl>>();

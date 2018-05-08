@@ -8,6 +8,6 @@ namespace Stratego
 {
     public class PieceNulle : Piece
     {
-        public PieceNulle(Couleur couleurPiece) : base(couleurPiece) {}
+        public PieceNulle(Couleur couleurPiece) : base(couleurPiece, "nulle") {}
     }
 }

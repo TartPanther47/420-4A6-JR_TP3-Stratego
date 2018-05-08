@@ -8,7 +8,7 @@ namespace Stratego
 {
    public class Commandant : PieceMobile
    {
-      public Commandant(Couleur couleurPiece) : base(couleurPiece, 7)
+      public Commandant(Couleur couleurPiece) : base(couleurPiece, 7, "commandant")
       {                           
       }
    }

@@ -9,6 +9,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
+            <ColumnDefinition Width="64"/>
+            <ColumnDefinition Width="16"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -24,6 +26,10 @@
                     Click="btnRecommencerPartie_Click">
                 Recommencer partie
             </Button>
+        </StackPanel>
+        <StackPanel x:Name="stpPiecesCapturees"
+                    Grid.Column="1">
+            <Label>Capturées</Label>
         </StackPanel>
     </Grid>
 </UserControl>

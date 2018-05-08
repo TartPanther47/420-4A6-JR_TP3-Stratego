@@ -65,6 +65,7 @@
     <Compile Include="ClassesMetier\AffichageGenerateurPiece.cs" />
     <Compile Include="ClassesMetier\Bombe.cs" />
     <Compile Include="ClassesMetier\CaseJeu.cs" />
+    <Compile Include="ClassesMetier\ConteneurPiecesCapturees.cs" />
     <Compile Include="ClassesMetier\GenerateurBombe.cs" />
     <Compile Include="ClassesMetier\GenerateurCapitaine.cs" />
     <Compile Include="ClassesMetier\GenerateurColonel.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="ClassesMetier\ParametresCouleurJoueur.cs" />
     <Compile Include="ClassesMetier\ParametresPiecesJoueur.cs" />
     <Compile Include="ClassesMetier\PieceAffichable.cs" />
+    <Compile Include="ClassesMetier\PieceCapturee.cs" />
     <Compile Include="ClassesMetier\PieceNulle.cs" />
     <Compile Include="ClassesMetier\ReponseGenerateurPiece.cs" />
     <Compile Include="ClassesMetier\SelectionneurPieces.cs" />

@@ -15,10 +15,10 @@ namespace Stratego
         public AffichageGenerateurPiece Affichage { get; }
         public string NomSprite { get; }
 
-        public GenerateurPieceAffichable(GenerateurPiece generateur, string nomSprite)
+        public GenerateurPieceAffichable(GenerateurPiece generateur, string nomSprite, Couleur couleur)
         {
             Generateur = generateur;
-            Affichage = new AffichageGenerateurPiece(this, nomSprite);
+            Affichage = new AffichageGenerateurPiece(this, nomSprite, couleur);
             NomSprite = nomSprite;
         }
     }

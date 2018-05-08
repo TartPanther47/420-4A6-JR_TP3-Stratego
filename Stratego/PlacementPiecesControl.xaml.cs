@@ -98,6 +98,7 @@ namespace Stratego
                                         btnJouer.IsEnabled = false;
                                         if (selectionneurPieces.NombresTypesPiecesRestants() == SelectionneurPieces.NB_TYPES_PIECES)
                                             btnVider.IsEnabled = false;
+                                        btnAleatoire.IsEnabled = true;
                                     };
                                 });
 
@@ -107,7 +108,11 @@ namespace Stratego
                                 grdPlateauJeu.Children.Add(pieces[X, Y].Affichage);
 
                                 if (selectionneurPieces.NombresTypesPiecesRestants() == 1)
+                                {
                                     btnJouer.IsEnabled = true;
+                                    btnAleatoire.IsEnabled = false;
+                                }
+                                btnVider.IsEnabled = true;
                             });
                         };
 
@@ -148,10 +153,12 @@ namespace Stratego
 
             btnVider.IsEnabled = false;
             btnJouer.IsEnabled = false;
+            btnAleatoire.IsEnabled = true;
         }
 
         private void btnAleatoire_Click(object sender, RoutedEventArgs e)
         {
+            btnAleatoire.IsEnabled = false;
             for (int x = 0; x < GrilleJeu.TAILLE_GRILLE_JEU; x++)
             {
                 for (int y = 0; y < HAUTEUR_GRILLE_DISPONIBLE; y++)
@@ -176,6 +183,7 @@ namespace Stratego
                                 btnJouer.IsEnabled = false;
                                 if (selectionneurPieces.NombresTypesPiecesRestants() == SelectionneurPieces.NB_TYPES_PIECES)
                                     btnVider.IsEnabled = false;
+                                btnAleatoire.IsEnabled = true;
                             };
                         });
 
