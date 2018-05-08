@@ -85,38 +85,16 @@ namespace Stratego
          InitializeComponent();
       }
 
-      /// <summary>
-      /// Cette méthode existe principalement pour que le jeu soit testable.
-      /// On ne veut évidemment pas toujours commencer une partie avec exactement les même positions.
-      /// </summary>
+        /// <summary>
+        /// Cette méthode existe principalement pour que le jeu soit testable.
+        /// On ne veut évidemment pas toujours commencer une partie avec exactement les même positions.
+        /// </summary>
+        /// <param name="pieces">Les pièces à positionner</param>
+        /// <returns>Si les pièces à positionner sont valides (bon nombre de chaque et bonnes couleurs)</returns>
       private bool PositionnerPieces(List<Piece> pieces)
       {
-         bool estValide = true;
-            // Vérifier que les pièces sont de la même couleur
-         for (int i = 1; i < pieces.Count; i++)
-             if (pieces[i].Couleur != pieces[0].Couleur)
-                 estValide = false;
-
-            // Vérifier qu'on a le bon nombre de pièces
-         if (!ValidationPieces.ValiderNombrePiece<Marechal> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<General> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<Colonel> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<Commandant> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<Capitaine> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<Lieutenant> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<Sergent> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<Demineur> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<Eclaireur> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<Espion> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<Drapeau> (pieces)) estValide = false;
-         else if (!ValidationPieces.ValiderNombrePiece<Bombe> (pieces)) estValide = false;
-
-         if (estValide)
-         {
-            GrillePartie.PositionnerPieces(pieces, CouleurJoueurs.CouleurJoueur);
-            GrillePartie.PositionnerPieces(IA.PlacerPieces(), CouleurJoueurs.CouleurIA);
-         }
-         return estValide;
+         return GrillePartie.PositionnerPieces(pieces, CouleurJoueurs.CouleurJoueur) &&
+                GrillePartie.PositionnerPieces(IA.PlacerPieces(), CouleurJoueurs.CouleurIA);
       }
 
       private void DiviserGrilleJeu()
@@ -294,7 +272,7 @@ namespace Stratego
                  new Uri(
                      "sprites/" +
                      (pieceAffichage.Couleur == Couleur.Rouge ? "Rouge/" : "Bleu/") +
-                     (pieceAffichage.Couleur == CouleurJoueurs.CouleurJoueur ? pieceAffichage.Nom : "dos-carte") +
+                     /*(pieceAffichage.Couleur == CouleurJoueurs.CouleurJoueur ?*/ pieceAffichage.Nom /*: "dos-carte")*/ +
                      ".png",
                      UriKind.Relative
                  )
@@ -494,7 +472,11 @@ namespace Stratego
             DefinirZoneSelectionGrille();
             InitialiserSelectionActive();
 
-            PositionnerPieces(((ParametresPiecesJoueur)parametres["Pieces"]).Pieces);
+            if(!PositionnerPieces(((ParametresPiecesJoueur)parametres["Pieces"]).Pieces))
+            {
+                MessageBox.Show("Nombre de pièces ou couleurs invalide(s).", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                GestionnaireEcransJeu.ChangerEcran("Accueil");
+            }
             InitialiserAffichagePieces();
 
             #region Tests

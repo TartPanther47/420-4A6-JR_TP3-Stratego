@@ -209,7 +209,27 @@ namespace Stratego
             decallage = 6;
          }
 
-         if (!PositionnementFait(couleurJoueur) && lstPieces.Count == 40)
+         bool estValide = true;
+         // Vérifier que les pièces sont de la même couleur
+         for (int i = 1; i < lstPieces.Count; i++)
+             if (lstPieces[i].Couleur != lstPieces[0].Couleur)
+                 estValide = false;
+
+         // Vérifier qu'on a le bon nombre de pièces de chaque type
+         if (!ValidationPieces.ValiderNombrePiece<Marechal>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<General>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Colonel>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Commandant>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Capitaine>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Lieutenant>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Sergent>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Demineur>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Eclaireur>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Espion>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Drapeau>(lstPieces)) estValide = false;
+         else if (!ValidationPieces.ValiderNombrePiece<Bombe>(lstPieces)) estValide = false;
+
+         if (!PositionnementFait(couleurJoueur) && estValide)
          {
             positionnementApplique = true;
 

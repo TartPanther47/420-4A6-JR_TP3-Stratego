@@ -9,6 +9,9 @@ namespace Stratego
 {
    public class IA_Stratego : IObserver<JeuStrategoControl>
    {
+      private const int LARGEUR_ZONE_DEPART = GrilleJeu.TAILLE_GRILLE_JEU;
+      private const int HAUTEUR_ZONE_DEPART = 4;
+
       #region Code relié au patron observateur
 
       private IDisposable unsubscriber;
@@ -114,11 +117,55 @@ namespace Stratego
 
       public List<Piece> PlacerPieces()
       {
-        return new List<Piece>() { new Commandant(Couleur), new Lieutenant(Couleur), new Demineur(Couleur), new Demineur(Couleur), new Demineur(Couleur), new Capitaine(Couleur), new Bombe(Couleur), new Sergent(Couleur), new Bombe(Couleur), new Drapeau(Couleur),
-                                   new Capitaine(Couleur), new Eclaireur(Couleur), new Capitaine(Couleur), new Sergent(Couleur), new Lieutenant(Couleur), new Eclaireur(Couleur), new Eclaireur(Couleur), new Bombe(Couleur), new Sergent(Couleur), new Bombe(Couleur),
-                                   new Eclaireur(Couleur), new Commandant(Couleur), new Eclaireur(Couleur), new Eclaireur(Couleur), new Marechal(Couleur), new Commandant(Couleur), new Capitaine(Couleur), new Demineur(Couleur), new Bombe(Couleur), new Sergent(Couleur),
-                                   new Lieutenant(Couleur), new Eclaireur(Couleur), new Colonel(Couleur), new Demineur(Couleur), new Lieutenant(Couleur), new Eclaireur(Couleur), new Colonel(Couleur), new Espion(Couleur), new General(Couleur), new Bombe(Couleur)
-        };
+            Piece[,] pieces = new Piece[LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART];
+
+            List<GenerateurPiece> generateursPieces = new List<GenerateurPiece>
+            {
+                new GenerateurDrapeau(),
+                new GenerateurMarechal(),
+                new GenerateurBombe(),
+                new GenerateurGeneral(),
+                new GenerateurColonel(),
+                new GenerateurCommandant(),
+                new GenerateurCapitaine(),
+                new GenerateurLieutenant(),
+                new GenerateurSergent(),
+                new GenerateurDemineur(),
+                new GenerateurEclaireur(),
+                new GenerateurEspion()
+            };
+            
+            List<StrategiePlacementPiece> strategies = new List<StrategiePlacementPiece>
+            {
+                new StrategiePlacementPieceDrapeau(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceMarechal(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceBombe(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceAleatoire(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceAleatoire(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceAleatoire(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceAleatoire(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceAleatoire(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceAleatoire(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceAleatoire(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceAleatoire(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART),
+                new StrategiePlacementPieceAleatoire(pieces, LARGEUR_ZONE_DEPART, HAUTEUR_ZONE_DEPART)
+            };
+            
+            for (int i = 0; i < generateursPieces.Count; i++)
+            {
+                while(generateursPieces[i].EstGenerable())
+                {
+                    Coordonnee position = strategies[i].GetPosition();
+                    pieces[position.X, position.Y] = generateursPieces[i].GenererPiece(Couleur);
+                }
+            }
+
+            List<Piece> lstPieces = new List<Piece>();
+            for (int y = 0; y < HAUTEUR_ZONE_DEPART; y++)
+                for (int x = 0; x < LARGEUR_ZONE_DEPART; x++)
+                    lstPieces.Add(pieces[x, y]);
+
+            return lstPieces;
       }
    }
 }

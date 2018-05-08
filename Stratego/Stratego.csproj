@@ -88,6 +88,11 @@
     <Compile Include="ClassesMetier\PieceNulle.cs" />
     <Compile Include="ClassesMetier\ReponseGenerateurPiece.cs" />
     <Compile Include="ClassesMetier\SelectionneurPieces.cs" />
+    <Compile Include="ClassesMetier\StrategiePlacementPiece.cs" />
+    <Compile Include="ClassesMetier\StrategiePlacementPieceAleatoire.cs" />
+    <Compile Include="ClassesMetier\StrategiePlacementPieceBombe.cs" />
+    <Compile Include="ClassesMetier\StrategiePlacementPieceDrapeau.cs" />
+    <Compile Include="ClassesMetier\StrategiePlacementPieceMarechal.cs" />
     <Compile Include="ClassesUtiles\Coordonnee.cs" />
     <Compile Include="ClassesUtiles\Couleur.cs" />
     <Compile Include="ClassesMetier\Demineur.cs" />
