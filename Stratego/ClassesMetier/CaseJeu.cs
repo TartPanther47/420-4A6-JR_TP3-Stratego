@@ -28,7 +28,7 @@ namespace Stratego
       {
          List<Piece> piecesEliminees = new List<Piece>();
 
-         if (Occupant != null) // TODO: Fix "colour change" when attacking ESP - MARECH, MARECH - ESP or ECLAIR - BOMB
+         if (Occupant != null)
             {
             if(attaquant is PieceMobile)
             {
@@ -36,7 +36,10 @@ namespace Stratego
                {
                     if (Occupant is Marechal && attaquant is Espion ||
                         Occupant is Espion && attaquant is Marechal)
-                         piecesEliminees.Add(Occupant);
+                    {
+                        piecesEliminees.Add(Occupant);
+                        Occupant = attaquant;
+                    }
                     else if (((PieceMobile)attaquant).Force < ((PieceMobile)Occupant).Force)
                     {
                         piecesEliminees.Add(attaquant);
@@ -56,7 +59,10 @@ namespace Stratego
                else if(Occupant is Bombe)
                {
                     if (attaquant is Demineur)
+                    {
                         piecesEliminees.Add(Occupant);
+                        Occupant = attaquant;
+                    }
                     else
                         piecesEliminees.Add(attaquant);
                }

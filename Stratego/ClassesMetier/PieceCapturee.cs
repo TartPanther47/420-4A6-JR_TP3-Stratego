@@ -17,18 +17,21 @@ namespace Stratego
 
         private int NombrePieces { get; set; }
         private Label LabelNbPieces { get; set; }
+        private Grid GrdCellule { get; set; }
+        private StackPanel StpParent { get; set; }
         public Piece Piece { get; private set; }
         
         public PieceCapturee(Piece piece, StackPanel stpParent)
         {
+            StpParent = stpParent;
             Piece = piece;
 
-            Grid grdCellule = new Grid();
-            grdCellule.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(TAILLE_PIECES) });
-            grdCellule.ColumnDefinitions.Add(new ColumnDefinition());
-            grdCellule.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(TAILLE_PIECES) });
-
-            grdCellule.Children.Add(new Rectangle
+            GrdCellule = new Grid();
+            GrdCellule.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(TAILLE_PIECES) });
+            GrdCellule.ColumnDefinitions.Add(new ColumnDefinition());
+            GrdCellule.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(TAILLE_PIECES) });
+            
+            GrdCellule.Children.Add(new Rectangle
             {
                 Fill = new ImageBrush(new BitmapImage(new Uri(
                     "sprites/" + (piece.EstDeCouleur(Couleur.Rouge) ? "Rouge/" : "Bleu/") + piece.Nom + ".png",
@@ -41,11 +44,13 @@ namespace Stratego
                 FontSize = 12
             };
             Grid.SetColumn(LabelNbPieces, 1);
-            grdCellule.Children.Add(LabelNbPieces);
+            GrdCellule.Children.Add(LabelNbPieces);
 
-            stpParent.Children.Add(grdCellule);
+            stpParent.Children.Add(GrdCellule);
         }
 
         public void Incrementer() => LabelNbPieces.Content = (int)LabelNbPieces.Content + 1;
+
+        public void Effacer() => StpParent.Children.Remove(GrdCellule);
     }
 }

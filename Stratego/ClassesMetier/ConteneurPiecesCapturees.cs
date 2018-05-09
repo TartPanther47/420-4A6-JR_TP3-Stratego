@@ -32,5 +32,11 @@ namespace Stratego
             if (!bTrouve)
                 PiecesCapturees.Add(new PieceCapturee(piece, StpParent));
         }
+
+        public void Vider()
+        {
+            foreach (PieceCapturee piece in PiecesCapturees) piece.Effacer();
+            PiecesCapturees.Clear();
+        }
     }
 }

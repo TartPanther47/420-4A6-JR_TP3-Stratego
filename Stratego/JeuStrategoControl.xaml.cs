@@ -31,7 +31,7 @@ namespace Stratego
 
       private List<List<Rectangle>> GrillePieces { get; set; }
 
-      private ConteneurPiecesCapturees conteneurPiecesCapturees { get; set; }
+      private ConteneurPiecesCapturees ConteneurPiecesCapturees { get; set; }
 
       private Rectangle SelectionActive { get; set; }
 
@@ -377,7 +377,7 @@ namespace Stratego
 
             foreach (Piece piece in reponse.PiecesEliminees)
                 if(piece.EstDeCouleur(CouleurJoueurs.CouleurIA))
-                    conteneurPiecesCapturees.AjouterPiece(piece);
+                    ConteneurPiecesCapturees.AjouterPiece(piece);
 
             if (reponse.DeplacementFait)
             {
@@ -459,7 +459,7 @@ namespace Stratego
 
             GrillePartie = new GrilleJeu(CouleurJoueurs.CouleurJoueur);
 
-            conteneurPiecesCapturees = new ConteneurPiecesCapturees(stpPiecesCapturees);
+            ConteneurPiecesCapturees = new ConteneurPiecesCapturees(stpPiecesCapturees);
 
             // Initialise la liste d'observateurs.
             observers = new List<IObserver<JeuStrategoControl>>();
@@ -514,6 +514,10 @@ namespace Stratego
             }
         }
 
-        public void Detruire() => grdPartie.Children.Clear();
+        public void Detruire()
+        {
+            ConteneurPiecesCapturees.Vider();
+            grdPartie.Children.Clear();
+        }
     }
 }
