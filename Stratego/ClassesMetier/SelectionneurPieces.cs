@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Auteur: Clément Gassmann-Prince
+// Date de dernière modification: 2018-05-10
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,13 +16,19 @@ using System.Windows.Threading;
 
 namespace Stratego
 {
+    /// <summary>
+    /// Contrôleur qui gère l'interface de choix des pièces.
+    /// </summary>
     public class SelectionneurPieces
     {
+        #region Statiques / constantes
         public const int NB_TYPES_PIECES = 12;
         private const int TAILLE_PIECE = 42;
         private const int RAYON_CERCLE = 128;
         private const int NB_FRAMES_ANIMATION_CERCLE = 8;
+        #endregion
 
+        #region Attributs
         private List<GenerateurPieceAffichable> generateurs = new List<GenerateurPieceAffichable>();
         private List<GenerateurPieceAffichable> generateursVides { get; set; }
 
@@ -33,7 +42,14 @@ namespace Stratego
 
         private int framePresenteAnimation;
         private DispatcherTimer timerAnimationCercle = new DispatcherTimer();
+        #endregion
 
+        #region Constructeur
+        /// <summary>
+        /// Construit un contrôleur de placement de pièces
+        /// </summary>
+        /// <param name="grille">Grille dans laquelle placer les pièces</param>
+        /// <param name="couleurJoueur">La couleur du joueur</param>
         public SelectionneurPieces(Grid grille, Couleur couleurJoueur)
         {
             CouleurJoueur = couleurJoueur;
@@ -80,15 +96,18 @@ namespace Stratego
 
                 generateurs[i].Affichage.Modifier((GenerateurPieceAffichable generateur, string uriSprite, Rectangle control) =>
                 {
+                        // Évènement de clic sur une pièce
                     control.MouseLeftButtonUp += (object sender, MouseButtonEventArgs e) =>
                     {
                         CacherInterface();
+                            // On appel la méthode de callback
                         MethodeRetourDemandePiece(generateur.Generateur.GenererPiece(CouleurJoueur), new Rectangle
                         {
                             Fill = new ImageBrush(new BitmapImage(new Uri(uriSprite, UriKind.Relative))),
                             Cursor = Cursors.Hand
                         }, generateur.NomSprite);
 
+                            // On cache le générateur s'il est vide
                         if (generateur.Generateur.Nombre == 0)
                         {
                             generateur.Affichage.Control.Visibility = Visibility.Collapsed;
@@ -111,9 +130,20 @@ namespace Stratego
             CacherInterface();
             grille.Children.Add(canvasInterface);
         }
+        #endregion
 
+        #region Methodes
+        /// <summary>
+        /// Détermine le nombre de types de pièces qu'il reste à placer
+        /// </summary>
+        /// <returns>Le nombre de types de pièces qu'il reste à placer</returns>
         public int NombresTypesPiecesRestants() => generateurs.Count;
 
+        /// <summary>
+        /// Actualiser l'animation de l'interface (quand on ouvre le sélectionneur de pièces)
+        /// </summary>
+        /// <param name="sender">L'objet qui appelle la fonction</param>
+        /// <param name="e">Objet de transport des arguments</param>
         private void ActualiserAnimationInterface(object sender, EventArgs e)
         {
             for (int i = 0; i < generateurs.Count; i++)
@@ -131,6 +161,8 @@ namespace Stratego
 
                 Canvas.SetLeft(generateurs[i].Affichage.LabelNbPieces, x - TAILLE_PIECE / 2);
                 Canvas.SetTop(generateurs[i].Affichage.LabelNbPieces, y);
+
+                generateurs[i].Affichage.Control.Opacity = framePresenteAnimation / (double)NB_FRAMES_ANIMATION_CERCLE;
             }
             if (framePresenteAnimation >= NB_FRAMES_ANIMATION_CERCLE)
                 timerAnimationCercle.Stop();
@@ -138,23 +170,43 @@ namespace Stratego
                 ++framePresenteAnimation;
         }
 
+        /// <summary>
+        /// Affiche l'interface (lance l'animation)
+        /// </summary>
         private void AfficherInterface()
         {
+                // Actualiser l'affichage des nombres de pièces à générer
             foreach (GenerateurPieceAffichable generateur in generateurs)
                 generateur.Affichage.ActualiserLabel();
+
+                // Lancer l'animation
             framePresenteAnimation = 0;
             timerAnimationCercle.Start();
+
+                // Afficher l'interface
             canvasInterface.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Cache l'interface
+        /// </summary>
         public void CacherInterface() => canvasInterface.Visibility = Visibility.Collapsed;
 
+        /// <summary>
+        /// Demander une pièce
+        /// </summary>
+        /// <param name="methodeRetour">Methode de callback qui sera appelée lorsque le joueur aura cliqué sur une pièce</param>
         public void DemanderPiece(Action<Piece, Rectangle, string> methodeRetour)
         {
             MethodeRetourDemandePiece = methodeRetour;
             AfficherInterface();
         }
 
+        /// <summary>
+        /// Demander une pièce aléatoire
+        /// </summary>
+        /// <param name="couleur">Couleur de la pièce</param>
+        /// <returns></returns>
         public ReponseGenerateurPiece GenererPieceAleatoire(Couleur couleur)
         {
             Random aleatoire = new Random(Guid.NewGuid().GetHashCode());
@@ -178,6 +230,10 @@ namespace Stratego
             return reponse;
         }
 
+        /// <summary>
+        /// Remets une pièce dans le générateur concerné, ou remet le générateur dans l'interface (s'il n'y avait plus de pièces à générer)
+        /// </summary>
+        /// <param name="nom"></param>
         public void RedonnerPiece(string nom)
         {
                 // Si toutes les instances de la pièce n'ont pas été placées.
@@ -202,5 +258,6 @@ namespace Stratego
                 }
             }
         }
+        #endregion
     }
 }

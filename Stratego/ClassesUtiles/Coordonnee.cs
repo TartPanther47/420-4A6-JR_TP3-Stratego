@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Auteur: Clément Gassmann-Prince
+// Date de dernière modification: 2018-05-10
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Stratego
 {
+    /// <summary>
+    /// Coordonnée bidimensionnelle entière
+    /// </summary>
    public class Coordonnee
    {
         #region Statiques
@@ -24,6 +30,11 @@ namespace Stratego
 
         #region Contructeur
 
+        /// <summary>
+        /// Construit une coordonnée
+        /// </summary>
+        /// <param name="x">Abscisse</param>
+        /// <param name="y">Ordonnée</param>
         public Coordonnee(int x, int y)
         {
            X = x;
@@ -34,6 +45,11 @@ namespace Stratego
 
         #region Methodes
 
+        /// <summary>
+        /// Comparaison d'égalité
+        /// </summary>
+        /// <param name="obj">Coordonée avec laquelle comparer</param>
+        /// <returns>Si les deux coordonnées sont égales</returns>
         public override bool Equals(object obj)
         {
             var coordonnee = obj as Coordonnee;
@@ -42,6 +58,10 @@ namespace Stratego
                    Y == coordonnee.Y;
         }
 
+        /// <summary>
+        /// Obtenir hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
             var hashCode = 1861411795;

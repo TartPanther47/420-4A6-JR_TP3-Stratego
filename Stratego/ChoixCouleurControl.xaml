@@ -37,6 +37,7 @@
                 <RowDefinition Height="64"/>
                 <RowDefinition/>
                 <RowDefinition Height="64"/>
+                <RowDefinition Height="24"/>
             </Grid.RowDefinitions>
             <Border BorderBrush="Red" BorderThickness="1" CornerRadius="3"
                     Grid.Column="1"
@@ -58,6 +59,13 @@
                         Cursor="Hand"
                         Click="btnBleu_Click">Bleu</Button>
             </Border>
+            <Button x:Name="btnRetour"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Grid.Row="3"
+                    Click="btnRetour_Click">
+                Retour
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

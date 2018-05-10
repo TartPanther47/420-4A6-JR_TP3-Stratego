@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Auteur: Clément Gassmann-Prince
+// Date de dernière modification: 2018-05-10
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace Stratego
 {
+    /// <summary>
+    /// Coup coté, permet de sonner une cote à un coup possible, afin de les ordonner par importance.
+    /// </summary>
     public class CoupCote : IComparable
     {
+        #region Statiques
+            // Poids des pièces
         private static readonly Dictionary<Type, int> LIST_IMPORTANCE_PIECES = new Dictionary<Type, int>
         {
             { typeof(Marechal), 10 },
@@ -23,7 +31,9 @@ namespace Stratego
             { typeof(Drapeau), 11 },
             { typeof(Bombe), 1 }
         };
+        #endregion
 
+        #region Attributs
         private GrilleJeu Jeu { get; set; }
         private Couleur CouleurIA { get; set; }
 
@@ -33,7 +43,16 @@ namespace Stratego
         public Coordonnee Attaquant { get; private set; }
         public Coordonnee Cible { get; private set; }
         public int Cote { get; private set; }
+        #endregion
 
+        #region Constructeur
+        /// <summary>
+        /// Construit un coup coté
+        /// </summary>
+        /// <param name="attaquant">Coordonnée de l'attaquant</param>
+        /// <param name="cible">Coordonnée de la cible</param>
+        /// <param name="jeu">Grille du jeu</param>
+        /// <param name="couleurIA">Couleur de l'intelligence artificielle</param>
         public CoupCote(Coordonnee attaquant, Coordonnee cible, GrilleJeu jeu, Couleur couleurIA)
         {
             Jeu = jeu;
@@ -47,7 +66,15 @@ namespace Stratego
 
             CalculerCote();
         }
-
+        #endregion
+        
+        #region Methodes
+        /// <summary>
+        /// Détermine si un coup est gagnant
+        /// </summary>
+        /// <param name="pieceAttaquante">Pièce attaquante</param>
+        /// <param name="pieceCible">Pièce cible</param>
+        /// <returns></returns>
         private bool DeterminerSiGagne(Piece pieceAttaquante, Piece pieceCible)
         {
             if (pieceCible is PieceMobile)
@@ -67,12 +94,15 @@ namespace Stratego
             return true;
         }
 
+        /// <summary>
+        /// Calcule la cote du coup
+        /// </summary>
         public void CalculerCote()
         {
             if(PieceCible != null)
             {
-                if(PieceCible.EstVisible)
-                {
+                if(PieceCible.EstVisible) // Si la cible est visible, on la classe selon le poid de la pièce,
+                {                         // positif si on gagne et négatif si on perd
                     if (PieceAttaquant.GetType() == PieceCible.GetType()) Cote = 0;
                     else
                     {
@@ -81,7 +111,7 @@ namespace Stratego
                         else Cote = -LIST_IMPORTANCE_PIECES[PieceAttaquant.GetType()];
                     }
                 }
-                else
+                else // Si elle est invisible, on calcule la probabilité que ce soit de chaque type
                 {
                     int nombrePieces = Jeu.CalculerNombrePieces(CouleurIA);
                     List<Tuple<Type, double>> probabilites = new List<Tuple<Type, double>>
@@ -136,6 +166,7 @@ namespace Stratego
                         )
                     };
 
+                        // On classe les résultats en ordre décroissant
                     probabilites.Sort((a, b) => { return (int)((b.Item2 - a.Item2) * 100); });
 
                     List<Tuple<Type, double>> meilleursProbabilites = new List<Tuple<Type, double>>();
@@ -148,12 +179,14 @@ namespace Stratego
                         else meilleursProbabilites.Add(probabilites[i]);
                     }
 
+                        // On choisi une pièce qui a le résultat le plus grand
                     Random rnd = new Random(DateTime.Now.Millisecond);
 
                     Type typePiece = meilleursProbabilites[rnd.Next(meilleursProbabilites.Count)].Item1;
 
                     Piece pieceCibleTemporaire = (Piece)Activator.CreateInstance(typePiece, new object[] { CouleurIA });
 
+                        // Et on applique la logique de cote avec le candidat possible
                     if (PieceAttaquant.GetType() == pieceCibleTemporaire.GetType()) Cote = 0;
                     else
                     {
@@ -165,6 +198,12 @@ namespace Stratego
             }
         }
 
+        /// <summary>
+        /// Compare deux coups cotés, pour le tri.
+        /// </summary>
+        /// <param name="obj">L'object avec lequel comparer</param>
+        /// <returns>La différence de cote</returns>
         public int CompareTo(object obj) => ((CoupCote)obj).Cote - Cote;
+        #endregion
     }
 }

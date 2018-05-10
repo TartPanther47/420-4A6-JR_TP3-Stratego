@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Auteur: Clément Gassmann-Prince
+// Date de dernière modification: 2018-05-10
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,8 +23,11 @@ namespace Stratego
     /// </summary>
     public partial class PlacementPiecesControl : UserControl, IConstructibleParametre, IDestructible
     {
+        #region Statiques / constantes
         private const int HAUTEUR_GRILLE_DISPONIBLE = 4;
-        
+        #endregion
+
+        #region Attributs
         private bool EstSelection { get; set; }
 
         private Rectangle selection;
@@ -30,7 +36,12 @@ namespace Stratego
         private PieceAffichable[,] pieces;
 
         private ParametresCouleurJoueurs ParametresCouleursJoueurs { get; set; }
-        
+        #endregion
+
+        #region Constructeur
+        /// <summary>
+        /// Construit le contrôle
+        /// </summary>
         public PlacementPiecesControl()
         {
             InitializeComponent();
@@ -41,7 +52,13 @@ namespace Stratego
             selection = new Rectangle();
             grdPlateauJeu.Children.Add(selection);
         }
+        #endregion
 
+        #region Methodes
+        /// <summary>
+        /// Initialise le contrôle quand on change d'écran de jeu
+        /// </summary>
+        /// <param name="parametres"></param>
         public void Construire(Dictionary<string, ParametresConstruction> parametres)
         {
             ParametresCouleursJoueurs = (ParametresCouleurJoueurs) parametres["Couleur joueurs"];
@@ -50,6 +67,9 @@ namespace Stratego
             EstSelection = false;
         }
 
+        /// <summary>
+        /// Divise la grille de placement en colonnes et en rangées
+        /// </summary>
         private void DiviserGrille()
         {
             for (int i = 0; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
@@ -62,6 +82,9 @@ namespace Stratego
             }
         }
 
+        /// <summary>
+        /// Crée et insère les cases avec les textures
+        /// </summary>
         private void InsererCasesGrille()
         {
             for (int x = 0; x < GrilleJeu.TAILLE_GRILLE_JEU; x++)
@@ -88,6 +111,7 @@ namespace Stratego
                                 pieces[X, Y] = new PieceAffichable(piece, affichage, nom);
                                 pieces[X, Y].Modifier((Piece Piece, Rectangle Affichage, string Nom) =>
                                 {
+                                     // Évènement du clic du sélectionneur
                                     Affichage.MouseLeftButtonUp += (object pieceAffichable, MouseButtonEventArgs evenement) =>
                                     {
                                         selectionneurPieces.RedonnerPiece(Nom);
@@ -129,6 +153,7 @@ namespace Stratego
                 }
             }
 
+                // Lorsque l'on quitte la zone des pièces, on cache le sélecteur
             grdPlateauJeu.MouseLeave += (object sender, MouseEventArgs e) =>
             {
                 if(!EstSelection)
@@ -136,6 +161,9 @@ namespace Stratego
             };
         }
 
+        /// <summary>
+        /// Vide les cases (enlève les pièces de l'interface et les redonne au sélecteur)
+        /// </summary>
         private void ViderCases()
         {
             for (int x = 0; x < GrilleJeu.TAILLE_GRILLE_JEU; x++)
@@ -156,6 +184,11 @@ namespace Stratego
             btnAleatoire.IsEnabled = true;
         }
 
+        /// <summary>
+        /// S'exécute lorsque l'on clique sur le bouton « Aléatoire ».
+        /// </summary>
+        /// <param name="sender">Objet appelant</param>
+        /// <param name="e">Arguments</param>
         private void btnAleatoire_Click(object sender, RoutedEventArgs e)
         {
             btnAleatoire.IsEnabled = false;
@@ -163,7 +196,7 @@ namespace Stratego
             {
                 for (int y = 0; y < HAUTEUR_GRILLE_DISPONIBLE; y++)
                 {
-                    if (pieces[x, y] == null)
+                    if (pieces[x, y] == null) // On ajoute une pièce aléatoire à chaque case vide
                     {
                         ReponseGenerateurPiece piece = selectionneurPieces.GenererPieceAleatoire(ParametresCouleursJoueurs.CouleurJoueur);
 
@@ -199,6 +232,11 @@ namespace Stratego
             btnVider.IsEnabled = true;
         }
 
+        /// <summary>
+        /// S'exécute lorsque l'on clique sur le bouton « Jouer ».
+        /// </summary>
+        /// <param name="sender">Objet appelant</param>
+        /// <param name="e">Arguments</param>
         private void btnJouer_Click(object sender, RoutedEventArgs e)
         {
             GestionnaireEcransJeu.ChangerEcran(
@@ -210,8 +248,17 @@ namespace Stratego
             );
         }
 
+        /// <summary>
+        /// S'exécute lorsque l'on clique sur le bouton « Vider ».
+        /// </summary>
+        /// <param name="sender">Objet appelant</param>
+        /// <param name="e">Arguments</param>
         private void btnVider_Click(object sender, RoutedEventArgs e) => ViderCases();
 
+        /// <summary>
+        /// Vider les cases à la destruction
+        /// </summary>
         public void Detruire() => ViderCases();
+        #endregion
     }
 }

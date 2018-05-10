@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Auteur: Clément Gassmann-Prince
+// Date de dernière modification: 2018-05-10
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +16,18 @@ namespace Stratego
     /// </summary>
     public class StrategiePlacementPieceDrapeau : StrategiePlacementPiece
     {
+        /// <summary>
+        /// Construit une strategie de placement du drapeau
+        /// </summary>
+        /// <param name="pieces">Grille de pièces où placer</param>
+        /// <param name="largeur">Largeur de la grille</param>
+        /// <param name="hauteur">Hauteur de la grille</param>
         public StrategiePlacementPieceDrapeau(Piece[,] pieces, int largeur, int hauteur) : base(pieces, largeur, hauteur) {}
 
+        /// <summary>
+        /// Détermine la position d'une pièce selon la stratégie
+        /// </summary>
+        /// <returns>Coordonnée de la position du coup à faire</returns>
         public override Coordonnee GetPosition()
         {
             List<Coordonnee> positionsPossibles = new List<Coordonnee>

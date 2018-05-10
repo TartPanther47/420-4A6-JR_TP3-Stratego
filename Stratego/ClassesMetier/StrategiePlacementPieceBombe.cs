@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Auteur: Clément Gassmann-Prince
+// Date de dernière modification: 2018-05-10
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +10,7 @@ using System.Threading.Tasks;
 namespace Stratego
 {
     /// <summary>
-    /// Règle de placement #2.
+    /// Règle de placement #3.
     ///     Trois bombes sont placées à gauche, à droite et en dessous du drapeau,
     ///     et les autres sont placées aléatoirement.
     /// </summary>
@@ -16,10 +19,20 @@ namespace Stratego
         private Coordonnee PositionDrapeau { get; set; }
         private bool DrapeauTrouve { get; set; }
 
+        /// <summary>
+        /// Construit une strategie de placement de pièces de bombes
+        /// </summary>
+        /// <param name="pieces">Grille de pièces où placer</param>
+        /// <param name="largeur">Largeur de la grille</param>
+        /// <param name="hauteur">Hauteur de la grille</param>
         public StrategiePlacementPieceBombe(Piece[,] pieces, int largeur, int hauteur)
             : base(pieces, largeur, hauteur)
         { DrapeauTrouve = false; }
 
+        /// <summary>
+        /// Détermine la position d'une pièce selon la stratégie
+        /// </summary>
+        /// <returns>Coordonnée de la position du coup à faire</returns>
         public override Coordonnee GetPosition()
         {
                 // Si on n'a pas trouvé le drapeau, le trouver

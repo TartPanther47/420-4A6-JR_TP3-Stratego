@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Cagap\source\repos\GitHub\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\
+D:\msxw\420-4A6-JR_TP3-Stratego\Stratego\obj\Debug\
 Stratego
 none
 false
 DEBUG;TRACE
-C:\Users\Cagap\source\repos\GitHub\420-4A6-JR_TP3-Stratego\Stratego\App.xaml
-5-1005665281
+D:\msxw\420-4A6-JR_TP3-Stratego\Stratego\App.xaml
+5619099399
 
-701114767716
+70-1461909748
 151984215308
-AccueilControl.xaml;ChoixCouleurControl.xaml;JeuStrategoControl.xaml;MainWindow.xaml;PlacementPiecesControl.xaml;
+AccueilControl.xaml;ChoixCouleurControl.xaml;JeuStrategoControl.xaml;PrincipaleWindow.xaml;PlacementPiecesControl.xaml;
 
-False
+True
 
