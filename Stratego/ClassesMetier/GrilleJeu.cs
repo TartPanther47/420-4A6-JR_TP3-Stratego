@@ -273,6 +273,34 @@ namespace Stratego
          return pieceTrouvee;
       }
 
+      public int CalculerNombrePieces(Type typePiece, Couleur couleur)
+      {
+         int nbPieces = 0;
+         for(int x = 0; x < TAILLE_GRILLE_JEU; x++)
+         {
+             for(int y = 0; y < TAILLE_GRILLE_JEU; y++)
+             {
+                Piece piece = ObtenirPiece(new Coordonnee(x, y));
+                if (piece != null && piece.EstDeCouleur(couleur) && piece.GetType() == typePiece) nbPieces++;
+             }
+         }
+         return nbPieces;
+      }
+
+      public int CalculerNombrePieces(Couleur couleur)
+      {
+         int nbPieces = 0;
+         for(int x = 0; x < TAILLE_GRILLE_JEU; x++)
+         {
+             for(int y = 0; y < TAILLE_GRILLE_JEU; y++)
+             {
+                Piece piece = ObtenirPiece(new Coordonnee(x, y));
+                if (piece != null && piece.EstDeCouleur(couleur)) nbPieces++;
+             }
+         }
+         return nbPieces;
+      }
+
       public Piece ObtenirPiece(Coordonnee p)
       {
          return GrilleCases[p.X][p.Y].Occupant;

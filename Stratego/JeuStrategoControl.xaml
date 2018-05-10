@@ -9,8 +9,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="64"/>
-            <ColumnDefinition Width="16"/>
+            <ColumnDefinition Width="74"/>
+            <ColumnDefinition Width="12"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -29,7 +29,7 @@
         </StackPanel>
         <StackPanel x:Name="stpPiecesCapturees"
                     Grid.Column="1">
-            <Label>Capturées</Label>
+            <Label FontSize="14">Capturées</Label>
         </StackPanel>
     </Grid>
 </UserControl>

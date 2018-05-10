@@ -66,6 +66,7 @@
     <Compile Include="ClassesMetier\Bombe.cs" />
     <Compile Include="ClassesMetier\CaseJeu.cs" />
     <Compile Include="ClassesMetier\ConteneurPiecesCapturees.cs" />
+    <Compile Include="ClassesMetier\CoupCote.cs" />
     <Compile Include="ClassesMetier\GenerateurBombe.cs" />
     <Compile Include="ClassesMetier\GenerateurCapitaine.cs" />
     <Compile Include="ClassesMetier\GenerateurColonel.cs" />
