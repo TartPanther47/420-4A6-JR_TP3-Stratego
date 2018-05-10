@@ -37,6 +37,10 @@ namespace Stratego
 
       private ParametresCouleurJoueurs CouleurJoueurs { get; set; }
 
+      private bool EstPartieTerminee { get; set; }
+
+      public bool EstDebutPartie { get; set; }
+
       public Couleur TourJeu { get; private set; }
 
       #region Code relié au patron observateur
@@ -329,6 +333,8 @@ namespace Stratego
 
       public ReponseDeplacement ExecuterCoup(Coordonnee caseDepart, Coordonnee caseCible)
       {
+         if(EstPartieTerminee) return new ReponseDeplacement();
+
          Thread executionIA = new Thread(LancerIA);
 
          ReponseDeplacement reponse = new ReponseDeplacement();
@@ -405,6 +411,9 @@ namespace Stratego
                   grdPartie.Children.Add(affichageAttaquant);
                }
 
+               if (EstDebutPartie)
+                    EstDebutPartie = false;
+
                // Permet de faire jouer l'IA.
                if (TourJeu == CouleurJoueurs.CouleurJoueur)
                   executionIA.Start();
@@ -442,14 +451,22 @@ namespace Stratego
          }
       }
 
+        public void TerminerPartie()
+        {
+            EstPartieTerminee = true;
+            grdPartie.IsEnabled = false;
+        }
+
         private void btnRecommencerPartie_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: ne demander que lorsque la partie est déjà commencée.
-            if(MessageBox.Show("Voulez-vous vraiment recommencer la partie ?",
+            bool bDecision = true;
+            if(!EstDebutPartie && MessageBox.Show("Voulez-vous vraiment recommencer la partie ?",
                                "Recommencer la partie",
                                MessageBoxButton.YesNo,
                                MessageBoxImage.Question,
-                               MessageBoxResult.No) == MessageBoxResult.Yes)
+                               MessageBoxResult.No) == MessageBoxResult.No)
+                bDecision = false;
+            if(bDecision)
                 GestionnaireEcransJeu.ChangerEcran("Choix couleur");
         }
 
@@ -457,7 +474,12 @@ namespace Stratego
         {
             CouleurJoueurs = (ParametresCouleurJoueurs)parametres["Couleur joueurs"];
 
-            GrillePartie = new GrilleJeu(CouleurJoueurs.CouleurJoueur);
+            grdPartie.IsEnabled = true;
+
+            EstPartieTerminee = false;
+            EstDebutPartie = true;
+
+            GrillePartie = new GrilleJeu(CouleurJoueurs.CouleurJoueur, this);
 
             ConteneurPiecesCapturees = new ConteneurPiecesCapturees(stpPiecesCapturees);
 

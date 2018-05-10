@@ -34,6 +34,8 @@ namespace Stratego
             }
         }
 
+        public static UserControl GetEcranPresent() => instance.EcransDeJeu[instance.EcranSelectionne];
+
         public static void AjouterEcran(string nom, UserControl ecran) => instance.EcransDeJeu.Add(nom, ecran);
 
         private Dictionary<string, UserControl> EcransDeJeu { get; set; }

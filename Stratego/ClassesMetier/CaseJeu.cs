@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Stratego
 {
    public class CaseJeu
    {
+      private GrilleJeu GrilleJeu { get; set; }
+
       public CaseJeu VoisinAvant { get; set; }
       public CaseJeu VoisinArriere { get; set; }
       public CaseJeu VoisinGauche { get; set; }
@@ -17,14 +21,15 @@ namespace Stratego
 
       public string TypeCase { get; set; }
 
-      public CaseJeu(string type)
+      public CaseJeu(string type, GrilleJeu grilleJeu)
       {
          TypeCase = type;
+         GrilleJeu = grilleJeu;
       }
 
       public bool EstOccupe() => (Occupant != null);
 
-      public List<Piece> ResoudreAttaque(Piece attaquant)
+      public List<Piece> ResoudreAttaque(Piece attaquant, Couleur couleurJoueur)
       {
          List<Piece> piecesEliminees = new List<Piece>();
 
@@ -68,7 +73,20 @@ namespace Stratego
                }
                else if(Occupant is Drapeau)
                {
-                    // TODO: End game
+                    GrilleJeu.Parent.TerminerPartie();
+                    string message;
+                    if(Occupant.EstDeCouleur(couleurJoueur))
+                        message = "Vous avez perdu... Voulez-vous recommencer ?";
+                    else
+                        message = "Vous avez gagné! Voulez-vous recommencer ?";
+                    if (MessageBox.Show(message,
+                                       "Partie terminée",
+                                       MessageBoxButton.YesNo,
+                                       MessageBoxImage.Question,
+                                       MessageBoxResult.No) == MessageBoxResult.Yes)
+                    {
+                        GestionnaireEcransJeu.ChangerEcran("Choix couleur");
+                    }
                }
             }
          }

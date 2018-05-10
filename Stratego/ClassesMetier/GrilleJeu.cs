@@ -17,13 +17,15 @@ namespace Stratego
       public const int TAILLE_GRILLE_JEU = 10;
 
       #endregion
+      public JeuStrategoControl Parent { get; private set; }
       private List<List<CaseJeu>> GrilleCases { get; set; }
 
       private Couleur CouleurJoueur { get; set; }
 
-      public GrilleJeu(Couleur couleurJoueur)
+      public GrilleJeu(Couleur couleurJoueur, JeuStrategoControl parent)
       {
          InitialiserGrille();
+         Parent = parent;
          CouleurJoueur = couleurJoueur;
       }
 
@@ -42,11 +44,11 @@ namespace Stratego
                // Coordonnées des lacs : I (2, 3, 6, 7) - J (4, 5)
                if ((i == 2 || i == 3 || i == 6 || i == 7) && (j == 4 || j == 5))
                {
-                  colonne.Add(new CaseJeu("Lac"));
+                  colonne.Add(new CaseJeu("Lac", this));
                }
                else
                {
-                  colonne.Add(new CaseJeu("Terrain"));
+                  colonne.Add(new CaseJeu("Terrain", this));
                }
             }
 
@@ -141,7 +143,7 @@ namespace Stratego
             if (caseDepart.EstOccupe() && EstDeplacementPermis(pointDepart, pointCible))
             {
                // Faire le déplacement.
-               reponse.PiecesEliminees = caseCible.ResoudreAttaque(caseDepart.Occupant);
+               reponse.PiecesEliminees = caseCible.ResoudreAttaque(caseDepart.Occupant, CouleurJoueur);
                caseDepart.Occupant = null;
 
                reponse.DeplacementFait = true;
